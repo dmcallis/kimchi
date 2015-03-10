@@ -1,6 +1,7 @@
 [
 	{
 		"Id" : 0,
+		"ListId" : 0,
 		"Content" : "1st item",
 		"Values" : [],
 		"Order" : 1,
@@ -10,6 +11,7 @@
 	},
 	{
 		"Id" : 1,
+		"ListId" : 0,
 		"Content" : "2nd item",
 		"Values" : [],
 		"Order" : 2,
