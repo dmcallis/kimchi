@@ -2,8 +2,10 @@ var Item = React.createClass({
   render: function() {
     return (
       <div className="item">
-          <h2 className="itemContent">{ this.props.content }</h2>
-          <h5 className="itemCreatedDate">{ this.props.createdDate }</h5>
+          <h3 className="itemContent">{ this.props.content }</h3>
+          <h5 className="itemOwner">Owner { this.props.owner }</h5>
+          <h5 className="itemCreatedDate">Created { this.props.createdDate }</h5>
+          <h5 className="itemCreatedDate">Modified { this.props.modifiedDate }</h5>
       </div>
     );
   }
@@ -13,7 +15,7 @@ var ItemList = React.createClass({
   render: function() {
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item content={ item.Content } createdDate={ item.CreatedDate }>
+        <Item content={ item.Content } owner={ item.Owner } createdDate={ item.CreatedDate } modifiedDate={ item.ModifiedDate }>
         </Item>
       );
     });
