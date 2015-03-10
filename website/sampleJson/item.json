@@ -1,7 +1,7 @@
 {
-	"id" : 0,
-	"values" : [],
-	"order" : 1,
+	"Id" : 0,
+	"Values" : [],
+	"Order" : 1,
 	"Owner" : "dmcallis",
 	"CreatedDate" : "2015-03-10T20:43:32.837Z",
 	"ModifiedDate" : "2015-03-10T20:43:38.415Z"
