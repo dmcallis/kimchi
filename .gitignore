@@ -1,10 +1,13 @@
-# Ignore Node & Bower
+# Ignore Node
 ###################
-node_modules
-bower_components
-build
+server/node_modules
 .tmp
 npm-debug.log
+
+# Ignore Bower
+###################
+website/bower_components
+website/build
 
 
 # mongo db
