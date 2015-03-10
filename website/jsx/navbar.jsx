@@ -1,5 +1,6 @@
 var React;
 
+var logoStyle = {height: "20px", marginTop: "0px"};
 
 var KimchiNavbar = React.createClass({
   render: function() {
@@ -7,7 +8,9 @@ var KimchiNavbar = React.createClass({
 	    <nav className="navbar navbar-default">
 	      <div className="container-fluid">
 	        <div className="navbar-header">
-	          <a className="navbar-brand" href="#">Kimchi</a>
+	          <a className="navbar-brand" href="#">
+	          	<img style={logoStyle} src="images/kimchi-logo-white.svg" />
+			  </a>
 	        </div>
 	        <div>
 	          <ul className="nav navbar-nav">
