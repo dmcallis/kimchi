@@ -33,16 +33,16 @@ var NewItemForm = React.createClass({
 
 var Item = React.createClass({
 
-  drag: function(ev)
+  click: function(ev)
   {
-	console.log("drag started");
-	console.log(ev.target.id);
-	ev.dataTransfer.setData("text", ev.target.id);
+	$( ".sortable" ).sortable({
+		connectWith: ".connectedSortable"
+	}).disableSelection();
   },
 
   render: function() {
     return (
-      <div id = {this.props.Id} className="item" draggable="true" onDragStart={this.drag.bind()}>
+      <div id = {this.props.Id} className="item" onClick={this.click} >
           <h3 className="itemContent">{ this.props.Content }</h3>
           <h5 className="itemOwner">Owner { this.props.Owner }</h5>
           <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
@@ -61,9 +61,15 @@ var Items = React.createClass({
     });
 
     return (
-      <div className="itemCollection">
+      <div className="itemCollection sortable connectedSortable">
         { itemNodes }
       </div>
     );
+  },
+  
+  componentDidMount: function() {
+	$( ".sortable" ).sortable({
+		connectWith: ".connectedSortable"
+	}).disableSelection();
   }
 });

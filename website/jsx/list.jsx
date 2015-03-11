@@ -33,11 +33,21 @@ var List = React.createClass({
       $("#alertNewItemForm").show("slow");
   },
 
+  allowDrop: function(ev) {
+     ev.preventDefault();
+  },
+
+  drop: function(ev) {
+     ev.preventDefault();
+     var data = ev.dataTransfer.getData("text");
+     ev.target.appendChild(document.getElementById(data));
+  },
+
   render: function() {
     return (
-      <div className="list col-sm-4">
+      <div className="list col-sm-4" onDrop={this.drop} onDragover={this.allowDrop}>
         <h1>{ this.props.Title }</h1>
-        <Items data = { this.state.data } />
+		<Items data = { this.state.data } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
       </div>
     );

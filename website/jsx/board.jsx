@@ -19,8 +19,8 @@ var Board = React.createClass({
 
 		React.render(
 			<Lists BoardId={ this.props.Id } />,
-			document.getElementById('content')
-		);
+			document.getElementById('content')			
+		);		
 	}
 });
 
