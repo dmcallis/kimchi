@@ -13,6 +13,12 @@ app.get('/boards/:id', kimchi.getBoard);
 app.put('/boards/:id', kimchi.updateBoard);
 app.delete('/boards/:id', kimchi.deleteBoard);
 
+app.get('/boards/:id/lists', kimchi.lists);
+app.post('/boards/:id/lists', kimchi.addList);
+app.get('/boards/:id/lists/:listid', kimchi.getList);
+app.put('/boards/:id/lists/:listid', kimchi.updateList);
+app.delete('/boards/:id/lists/:listid', kimchi.deleteList);
+
 app.listen(8080);
 console.log('Kimchi server running at http://127.0.0.1:8080/...');
 
