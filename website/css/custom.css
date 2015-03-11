@@ -1,8 +1,15 @@
+div.list {
+    width:300px;
+}
+
 div.item {
-  width:25%;
-  background-color:green;
-  padding-top:1pt;
-  padding-bottom:1pt;
-  padding-left:5pt;
-  margin:2pt;
+    background-color:green;
+    padding-top:1pt;
+    padding-bottom:1pt;
+    padding-left:5pt;
+    margin:2pt;
+}
+
+form {
+    margin:2pt;
 }
