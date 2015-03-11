@@ -10,6 +10,8 @@ download website components:
 React.js
 
 arangodb https://www.arangodb.com/tutorial-node-js
-npm install arangojs
+arangojs https://github.com/arangodb/arangojs
+npm install arangojs -g
 
-Express: npm install express
+Express: 
+npm install express -g

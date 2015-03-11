@@ -1,5 +1,8 @@
 div.list {
     width:300px;
+    border:1px solid;
+    padding:5px;
+    margin:5px;
 }
 
 div.item {
@@ -14,8 +17,13 @@ form {
     margin:2pt;
 }
 
-div.board {
+form.newListForm {
+    margin:-1pt;
+    padding-top:20pt;
+    padding-bottom:50pt;
+}
+
+div.boardSummary {
   background-color:green;
   margin:5px;
 }
-
