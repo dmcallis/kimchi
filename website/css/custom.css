@@ -6,3 +6,9 @@ div.item {
   padding-left:5pt;
   margin:2pt;
 }
+
+div.board {
+  background-color:green;
+  margin:5px;
+}
+
