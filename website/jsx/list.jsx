@@ -86,9 +86,15 @@ var Lists = React.createClass({
 		});
 
 		return (
-			<div className="col row">
+			<div className="col row sortableLists connectedSortableLists">
 				{ listNodes }
 			</div>
 		);
+	},
+	
+	componentDidMount: function() {
+		$( ".sortableLists" ).sortable({
+			connectWith: ".connectedSortableLists"
+		}).disableSelection();
 	}
 });
