@@ -44,7 +44,7 @@ var Item = React.createClass({
   }
 });
 
-var ItemList = React.createClass({
+var ItemCollection = React.createClass({
   render: function() {
     var itemNodes = this.props.data.map(function (item) {
       return (
@@ -54,7 +54,7 @@ var ItemList = React.createClass({
     });
 
     return (
-      <div className="itemList">
+      <div className="itemCollection">
         { itemNodes }
       </div>
     );
@@ -97,11 +97,9 @@ var List = React.createClass({
     return (
       <div className="list">
         <h1>Sample List</h1>
-        <ItemList data = { this.state.data } />
+        <ItemCollection data = { this.state.data } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
       </div>
     );
   }
 });
-
-
