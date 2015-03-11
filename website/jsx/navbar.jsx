@@ -28,21 +28,40 @@ var KiNavbar = React.createClass({
 var footerStyle = {minHeight: "40px"};
 var KiFooter = React.createClass({
   getInitialState: function() {
-    return {status: "this is the footer"};
+    return {statusMessage: ""};
+  },
+
+  componentDidMount: function() {
+	   document.addEventListener('set-status-message', this.onSetStatusMessage);
   },
 
   render: function() {
     return (
 	  <nav className="navbar navbar-default navbar-fixed-bottom">
 
-      <div className="container">
-        <p className="navbar-text">{this.state.status}</p>
+      <div className="container-fluid">
+        <p className="navbar-text">{this.state.statusMessage}</p>
       </div>
       </nav>
     );
+  },
+
+  onSetStatusMessage: function(e) {
+  	this.setState ({statusMessage : e.detail.message});
   }
 });
 
+function SetStatusMessage (messageText)
+{
+	var event = new CustomEvent(
+		"set-status-message",
+		{
+			detail: {
+				message: messageText				
+			}
+		});
+	document.dispatchEvent(event)
+}
 
 React.render(<KiNavbar />, document.getElementById('navbar')); 
 React.render(<KiFooter />, document.getElementById('footer'));     
