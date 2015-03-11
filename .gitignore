@@ -19,3 +19,4 @@ website/build
 *.ns
 journal
 
+node_modules
