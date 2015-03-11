@@ -35,7 +35,7 @@ var List = React.createClass({
 
   render: function() {
     return (
-      <div className="list">
+      <div className="list col-sm-4">
         <h1>{ this.props.Title }</h1>
         <Items data = { this.state.data } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
@@ -77,7 +77,7 @@ var Lists = React.createClass({
 		});
 
 		return (
-			<div className="col">
+			<div className="col row">
 				{ listNodes }
 			</div>
 		);
