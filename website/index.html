@@ -28,28 +28,10 @@
       <!-- Let's put some contents here -->
       <div class="main">
         <div id="content">
-        </div>		
-		<div id="test" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="click">
-			Drop target div
-		</div>
+        </div>			
       </div>
     </div>
-
-	<script>
-		function drop(event) {
-			console.log("dropped");
-		}
-		
-		function allowDrop(event) {
-			event.preventDefault();
-		}
-		
-		function click(event)
-		{
-			alert('test');
-		}
-		alert('js');
-	</script>
+	
     <script src="bower_components/react/react.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/react/JSXTransformer.js"></script>
