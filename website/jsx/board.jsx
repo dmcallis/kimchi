@@ -8,7 +8,7 @@ var Board = React.createClass({
 			</div>
 		);
 	},
-	
+
 	viewBoard: function (board,event)
 	{
 		console.log('viewBoard clicked');
@@ -16,7 +16,7 @@ var Board = React.createClass({
 		{
 			clearInterval(boardInterval);
 		}
-		React.render(			
+		React.render(
 			<List url="sampleJson/item.json" pollInterval={2000} />,
 			document.getElementById('content')
 		);
@@ -46,7 +46,7 @@ var BoardList = React.createClass({
 		return { data: [] };
 	},
 
-	loadItemsFromServer: function() {
+	loadBoardsFromServer: function() {
 		$.ajax({
 			url: this.props.url,
 			dataType: 'json',
@@ -60,8 +60,8 @@ var BoardList = React.createClass({
 	},
 
 	componentDidMount: function() {
-		this.loadItemsFromServer();
-		boardInterval = setInterval(this.loadItemsFromServer, this.props.pollInterval);
+		this.loadBoardsFromServer();
+		boardInterval = setInterval(this.loadBoardsFromServer, this.props.pollInterval);
 	},
 
 	render: function ()
