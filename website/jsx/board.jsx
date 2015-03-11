@@ -75,6 +75,6 @@ var BoardList = React.createClass({
 });
 
 React.render(
-  <BoardList url="sampleJson/board.json" pollInterval={2000} />,
+  <BoardList url="boards" pollInterval={2000} />,
   document.getElementById('content')
 );
