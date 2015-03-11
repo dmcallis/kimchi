@@ -1,0 +1,21 @@
+div.list {
+    width:300px;
+}
+
+div.item {
+    background-color:green;
+    padding-top:1pt;
+    padding-bottom:1pt;
+    padding-left:5pt;
+    margin:2pt;
+}
+
+form {
+    margin:2pt;
+}
+
+div.board {
+  background-color:green;
+  margin:5px;
+}
+
