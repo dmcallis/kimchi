@@ -24,6 +24,10 @@ form.newListForm {
 }
 
 div.boardSummary {
-  background-color:green;
-  margin:5px;
+    background-color:green;
+    margin:5px;
+}
+
+div.board {
+    padding-left:10pt;
 }
