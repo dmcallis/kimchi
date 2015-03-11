@@ -32,9 +32,17 @@ var NewItemForm = React.createClass({
 });
 
 var Item = React.createClass({
+
+  drag: function(ev)
+  {
+	console.log("drag started");
+	console.log(ev.target.id);
+	ev.dataTransfer.setData("text", ev.target.id);
+  },
+
   render: function() {
     return (
-      <div className="item">
+      <div id = {this.props.id} className="item" draggable="true" onDragStart={this.drag.bind()}>
           <h3 className="itemContent">{ this.props.content }</h3>
           <h5 className="itemOwner">Owner { this.props.owner }</h5>
           <h5 className="itemCreatedDate">Created { this.props.createdDate }</h5>
@@ -48,7 +56,7 @@ var ItemList = React.createClass({
   render: function() {
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item content={ item.Content } owner={ item.Owner } createdDate={ item.CreatedDate } modifiedDate={ item.ModifiedDate }>
+        <Item id = {item.Id} content={ item.Content } owner={ item.Owner } createdDate={ item.CreatedDate } modifiedDate={ item.ModifiedDate }>
         </Item>
       );
     });
