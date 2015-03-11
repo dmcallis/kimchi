@@ -33,16 +33,9 @@ var NewItemForm = React.createClass({
 
 var Item = React.createClass({
 
-  click: function(ev)
-  {
-	$( ".sortable" ).sortable({
-		connectWith: ".connectedSortable"
-	}).disableSelection();
-  },
-
   render: function() {
     return (
-      <div id = {this.props.Id} className="item" onClick={this.click} >
+      <div id = {this.props.Id} className="item">
           <h3 className="itemContent">{ this.props.Content }</h3>
           <h5 className="itemOwner">Owner { this.props.Owner }</h5>
           <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
