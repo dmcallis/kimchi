@@ -1,15 +1,7 @@
-var http = require("http"),
-  fs = require("fs");
+var express = require('express');
+var app = express();
 
-http.createServer(function(request, response) {
-  fs.readFile("./../website/index.html", function(err, file) {
-    if (err) {
-      response.writeHead(500, {"Content-type" : "text/plain"});
-      response.end(err + "\n");
-      return;
-    }
-    response.writeHead(200, {"Content-type" : "text/html"});
-    response.write(file);
-    response.end();
-  });
-}).listen(8080);
+app.use('/', '/../website')
+app.use(express.static(__dirname + '/../website/'))
+
+app.listen(8080);

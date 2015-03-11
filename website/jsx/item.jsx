@@ -1,3 +1,36 @@
+var NewItemForm = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var owner = "yongjkim"; // TODO: Value from current session
+        var content = this.refs.content.getDOMNode().value.trim();
+        if (!owner || !content) {
+            return;
+        }
+
+        // TODO: return all properties, sync with .../sampleJson/item.json
+        this.props.onNewItemSubmit(
+            {
+                Owner: "N/A",
+                Content: content,
+                CreatedDate: new Date().toLocaleTimeString(),
+                ModifiedDate: new Date().toLocaleTimeString()
+            }
+        );
+
+        this.refs.content.getDOMNode().value = "";
+        return;
+    },
+
+    render: function() {
+        return (
+            <form className="newItemForm" onSubmit={ this.handleSubmit }>
+                <input type="text" class="newItemFormContent" placeholder="Type something..." ref="content" />
+                <input type="submit" value="Add" />
+            </form>
+        );
+  }
+});
+
 var Item = React.createClass({
   render: function() {
     return (
@@ -48,7 +81,16 @@ var List = React.createClass({
 
   componentDidMount: function() {
     this.loadItemsFromServer();
-    setInterval(this.loadItemsFromServer, this.props.pollInterval);
+    //setInterval(this.loadItemsFromServer, this.props.pollInterval);
+  },
+
+  handleItemSubmit: function(item) {
+      var items = this.state.data;
+      var newItems = items.concat([item]);
+      this.setState({data: newItems});
+
+      // TODO: Send data to server
+      $("#alertNewItemForm").show("slow");
   },
 
   render: function() {
@@ -56,6 +98,7 @@ var List = React.createClass({
       <div className="list">
         <h1>Sample List</h1>
         <ItemList data = { this.state.data } />
+        <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
       </div>
     );
   }
