@@ -115,3 +115,46 @@ exports.deleteList = function (request, response) {
         response.status(400).send("List (Id: " + request.params.listid + ") not found");
     }
 };
+
+/* Item REST API */
+
+exports.items = function (request, response) {
+    response.set("Content-type", "application/json");
+    response.send(JSON.stringify(items));
+};
+
+exports.getItem = function (request, response) {
+    var index = containsKey(items, "Id", request.params.itemid);
+    if (index > -1) {
+        response.set("Content-type", "application/json");
+        response.send(JSON.stringify(items[index]));
+    }
+    else {
+        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
+    }
+};
+
+exports.addItem = function (request, response) {
+    var item = JSON.parse(request.body);
+    response.status(200).send("Item created\nData: " + JSON.stringify(item));
+};
+
+exports.updateItem = function (request, response) {
+    var index = containsKey(items, "Id", request.params.itemid);
+    if (index > -1) {
+        response.status(200).send("Item updated\nData: " + JSON.stringify(items[index]));
+    }
+    else {
+        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
+    }
+};
+
+exports.deleteItem = function (request, response) {
+    var index = containsKey(items, "Id", request.params.itemid);
+    if (index > -1) {
+        response.status(200).send("Item (Id: " + request.params.itemid + ") will be deleted by Jun Yong Kim in the near future. : )");
+    }
+    else {
+        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
+    }
+};
