@@ -4,14 +4,17 @@ var List = React.createClass({
   },
 
   loadItemsFromServer: function() {
+    // TODO: Call API with listId and boardId
+    var apiUrl = "sampleJson/item.json";
+
     $.ajax({
-      url: this.props.url,
+      url: apiUrl,
       dataType: 'json',
       success: function(data){
         this.setState({ data: data });
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(apiUrl, status, err.toString());
       }.bind(this)
     });
   },
@@ -33,10 +36,50 @@ var List = React.createClass({
   render: function() {
     return (
       <div className="list">
-        <h1>Sample List</h1>
+        <h1>{ this.props.Title }</h1>
         <Items data = { this.state.data } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
       </div>
     );
   }
+});
+
+var Lists = React.createClass({
+    getInitialState: function() {
+        return { data: [] };
+    },
+
+    componentDidMount: function() {
+        this.loadListsFromServer();
+    },
+
+    loadListsFromServer: function() {
+		// TODO: Call API with listId
+		var apiUrl = "sampleJson/list.json";
+
+		$.ajax({
+		    url: apiUrl,
+		    dataType: 'json',
+		    success: function(data){
+				this.setState({ data: data});
+		    }.bind(this),
+		    error: function(xhr, status, err) {
+		        console.error(apiUrl, status, err.toString());
+		    }.bind(this)
+		});
+	},
+
+    render: function() {
+		var listNodes = this.state.data.map(function (list) {
+			return (
+				<List Id={ list.Id } BoardId={ list.BoardId } Title={ list.Title } Owner={ list.Owner } />
+			);
+		});
+
+		return (
+			<div className="col">
+				{ listNodes }
+			</div>
+		);
+	}
 });

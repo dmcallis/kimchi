@@ -16,8 +16,9 @@ var Board = React.createClass({
 		{
 			clearInterval(boardInterval);
 		}
+
 		React.render(
-			<List url="sampleJson/item.json" pollInterval={2000} />,
+			<Lists BoardId={ this.props.Id } />,
 			document.getElementById('content')
 		);
 	}
@@ -41,7 +42,6 @@ var Boards = React.createClass({
 });
 
 var BoardList = React.createClass({
-
 	getInitialState: function() {
 		return { data: [] };
 	},
