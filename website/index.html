@@ -8,38 +8,30 @@
 
     <link rel="stylesheet" type="text/css" href="css/custom.css">
   </head>
-  <body>
-
-    
-    <div class="container">
-      <div id="kimchi-navbar">
-        <p>
-          If you can see this, React is not working right.
-        </p>
-      </div>
-
-      <div class="infobar">
-        <div class="alert alert-info" id="alertNewItemForm" style="display:none">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-            <strong>TODO</strong> Store new item data into the database store.
-        </div>
-      </div>
-
-      <!-- Let's put some contents here -->
-      <div class="main">
-        <div id="content">
-        </div>			
-      </div>
+  <body style = "padding-top: 70px; padding-bottom: 60px">
+    <div id="navbar">
+      <p>
+        If you can see this, React is not working right.
+      </p>
     </div>
-	
+
+    <div id="main">
+    </div>
+
+    <div id="footer">
+    </div>
+
     <script src="bower_components/react/react.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/jqueryui/jquery-ui.js"></script>
 	<script src="bower_components/react/JSXTransformer.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+    <script type="text/jsx" src="jsx/login.jsx"></script>    
     <script type="text/jsx" src="jsx/navbar.jsx"></script>
-	<script type="text/jsx" src="jsx/board.jsx"></script>
-    <script type="text/jsx" src="jsx/list.jsx"></script>    
+    <script type="text/jsx" src="jsx/main.jsx"></script>
     <script type="text/jsx" src="jsx/item.jsx"></script>
+	<script type="text/jsx" src="jsx/list.jsx"></script>
+	  <script type="text/jsx" src="jsx/board.jsx"></script>
   </body>
 </html>
