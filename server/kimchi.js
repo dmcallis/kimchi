@@ -1,5 +1,11 @@
+var fs = require('fs')
+
 exports.boards = function (request, response) {
-    response.send("Get Boards")
+    try {
+        var data = fs.readFileSync("../website/samplejson/board.json", "UTF-8")
+        response.send(data)
+    }
+    catch(e) { console.log(e) }
 };
  
 exports.getBoard = function(request, response) {
