@@ -1,9 +1,11 @@
 var express = require('express');
+var bodyParser = require('body-parser')
 var kimchi = require('./kimchi');
 var app = express();
   
 app.use('/', '/../website');
 app.use(express.static(__dirname + '/../website/'));
+app.use(bodyParser.json());
 
 app.get('/boards', kimchi.boards);
 app.post('/boards', kimchi.addBoard);

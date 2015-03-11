@@ -13,12 +13,14 @@ catch (e) {
 }
 
 exports.boards = function (request, response) {
+    response.set("Content-type", "application/json");
     response.send(JSON.stringify(boards));
 };
  
 exports.getBoard = function (request, response) {
     for (var i = 0; i < boards.length; i++) {
         if (boards[i].Id == request.params.id) {
+            response.set("Content-type", "application/json");
             response.send(JSON.stringify(boards[i]));
             return;
         }
@@ -28,13 +30,14 @@ exports.getBoard = function (request, response) {
 };
 
 exports.addBoard = function (request, response) {
-    response.status(200).send("Board created");
+    var board = JSON.parse(request.body);
+    response.status(200).send("Board created\nData: " + JSON.stringify(board));
 };
 
 exports.updateBoard = function (request, response) {
     for (var i = 0; i < boards.length; i++) {
         if (boards[i].Id == request.params.id) {
-            response.send(JSON.stringify(boards[i]));
+            response.status(200).send("Board updated\nData: " + JSON.stringify(board));
             return;
         }
     }
