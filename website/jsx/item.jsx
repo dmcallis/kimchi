@@ -1,7 +1,7 @@
 var NewItemForm = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
-        var owner = "yongjkim"; // TODO: Value from current session
+        var owner = "N/A"; // TODO: Value from current session
         var content = this.refs.content.getDOMNode().value.trim();
         if (!owner || !content) {
             return;
@@ -10,7 +10,7 @@ var NewItemForm = React.createClass({
         // TODO: return all properties, sync with .../sampleJson/item.json
         this.props.onNewItemSubmit(
             {
-                Owner: "N/A",
+                Owner: owner,
                 Content: content,
                 CreatedDate: new Date().toLocaleTimeString(),
                 ModifiedDate: new Date().toLocaleTimeString()
@@ -59,7 +59,7 @@ var Items = React.createClass({
       </div>
     );
   },
-  
+
   componentDidMount: function() {
 	$( ".sortable" ).sortable({
 		connectWith: ".connectedSortable"

@@ -17,7 +17,13 @@ form {
     margin:2pt;
 }
 
-div.board {
+form.newListForm {
+    margin:-1pt;
+    padding-top:20pt;
+    padding-bottom:50pt;
+}
+
+div.boardSummary {
   background-color:green;
   margin:5px;
 }

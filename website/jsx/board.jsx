@@ -1,9 +1,53 @@
 var boardInterval = null;
 
 var Board = React.createClass({
+	getInitialState: function() {
+        return { data: [] };
+    },
+
+    componentDidMount: function() {
+        this.loadListsFromServer();
+    },
+
+    loadListsFromServer: function() {
+		// TODO: Call API with boardId
+		var apiUrl = "sampleJson/list.json";
+
+		$.ajax({
+		    url: apiUrl,
+		    dataType: 'json',
+		    success: function(data){
+				this.setState({ data: data });
+		    }.bind(this),
+		    error: function(xhr, status, err) {
+		        console.error(apiUrl, status, err.toString());
+		    }.bind(this)
+		});
+	},
+
+    handleListSubmit: function(list) {
+        var lists = this.state.data;
+        var newLists = lists.concat([list]);
+        this.setState({data: newLists});
+
+        // TODO: Send data to server
+        $("#alertNewDataForm").show("slow");
+    },
+
 	render: function() {
 		return (
-			<div className="board col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
+			<div className="board">
+				<Lists data={ this.state.data } />
+				<NewListForm onNewListSubmit={ this.handleListSubmit } />
+			</div>
+		);
+	}
+});
+
+var BoardSummary = React.createClass({
+	render: function() {
+		return (
+			<div className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
 				<h3 className="boardTitle">{ this.props.Title }</h3>
 			</div>
 		);
@@ -18,9 +62,9 @@ var Board = React.createClass({
 		}
 
 		React.render(
-			<Lists BoardId={ this.props.Id } />,
-			document.getElementById('content')			
-		);		
+			<Board BoardId={ this.props.Id } />,
+			document.getElementById('content')
+		);
 	}
 });
 
@@ -28,8 +72,7 @@ var Boards = React.createClass({
 	render: function() {
 		var boardNodes = this.props.data.map(function (board) {
 			return (
-				<Board Title={ board.Title } >
-				</Board>
+				<BoardSummary Title={ board.Title } />
 			);
 		});
 
