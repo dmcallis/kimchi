@@ -77,7 +77,7 @@ var Boards = React.createClass({
 	render: function() {
 		var boardNodes = this.props.data.map(function (board) {
 			return (
-				<BoardSummary Title={ board.Title } />
+				<BoardSummary key={ board.Id } Title={ board.Title } />
 			);
 		});
 

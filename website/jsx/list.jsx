@@ -37,7 +37,7 @@ var List = React.createClass({
   },
 
   loadItemsFromServer: function() {
-    // TODO: Call API with listId and boardId
+    // TODO: Call API with key and boardId
     var apiUrl = "sampleJson/item.json";
 
     $.ajax({
@@ -81,7 +81,7 @@ var Lists = React.createClass({
     render: function() {
 		var listNodes = this.props.data.map(function (list) {
 			return (
-				<List Id={ list.Id } BoardId={ list.BoardId } Title={ list.Title } Owner={ list.Owner } />
+				<List key={ list.Id } BoardId={ list.BoardId } Title={ list.Title } Owner={ list.Owner } />
 			);
 		});
 
@@ -91,7 +91,7 @@ var Lists = React.createClass({
 			</div>
 		);
 	},
-	
+
 	componentDidMount: function() {
 		$( ".sortableLists" ).sortable({
 			connectWith: ".connectedSortableLists"
