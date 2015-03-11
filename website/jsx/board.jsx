@@ -10,8 +10,7 @@ var Board = React.createClass({
     },
 
     loadListsFromServer: function() {
-		// TODO: Call API with boardId
-		var apiUrl = "sampleJson/list.json";
+		var apiUrl = "boards/" + this.props.Id + "/lists"
 
 		$.ajax({
 		    url: apiUrl,
@@ -77,7 +76,7 @@ var Boards = React.createClass({
 	render: function() {
 		var boardNodes = this.props.data.map(function (board) {
 			return (
-				<BoardSummary key={ board.Id } Title={ board.Title } />
+				<BoardSummary key={ board.Id } Id={ board.Id } Title={ board.Title } />
 			);
 		});
 
@@ -109,7 +108,7 @@ var BoardList = React.createClass({
 
 	componentDidMount: function() {
 		this.loadBoardsFromServer();
-		boardInterval = setInterval(this.loadBoardsFromServer, this.props.pollInterval);
+		//boardInterval = setInterval(this.loadBoardsFromServer, this.props.pollInterval);
 	},
 
 	render: function ()

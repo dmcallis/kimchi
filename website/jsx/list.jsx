@@ -37,8 +37,7 @@ var List = React.createClass({
   },
 
   loadItemsFromServer: function() {
-    // TODO: Call API with key and boardId
-    var apiUrl = "sampleJson/item.json";
+    var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items";
 
     $.ajax({
       url: apiUrl,
@@ -81,7 +80,7 @@ var Lists = React.createClass({
     render: function() {
 		var listNodes = this.props.data.map(function (list) {
 			return (
-				<List key={ list.Id } BoardId={ list.BoardId } Title={ list.Title } Owner={ list.Owner } />
+				<List key={ list.Id } Id={ list.Id } BoardId={ list.BoardId } Title={ list.Title } Owner={ list.Owner } />
 			);
 		});
 
