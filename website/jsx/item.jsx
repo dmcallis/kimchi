@@ -104,7 +104,4 @@ var List = React.createClass({
   }
 });
 
-React.render(
-  <List url="sampleJson/item.json" pollInterval={2000} />,
-  document.getElementById('content')
-);
+
