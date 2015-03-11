@@ -14,5 +14,5 @@ app.put('/boards/:id', kimchi.updateBoard);
 app.delete('/boards/:id', kimchi.deleteBoard);
 
 app.listen(8080);
-
+console.log('Kimchi server running at http://127.0.0.1:8080/...');
 
