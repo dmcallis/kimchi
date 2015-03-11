@@ -37,8 +37,13 @@ var Board = React.createClass({
 	render: function() {
 		return (
 			<div className="board">
-				<Lists data={ this.state.data } />
-				<NewListForm onNewListSubmit={ this.handleListSubmit } />
+				<div>
+					<h1><strong>{ this.props.Title }</strong></h1>
+				</div>
+				<div>
+					<Lists data={ this.state.data } />
+					<NewListForm onNewListSubmit={ this.handleListSubmit } />
+				</div>
 			</div>
 		);
 	}
@@ -62,7 +67,7 @@ var BoardSummary = React.createClass({
 		}
 
 		React.render(
-			<Board BoardId={ this.props.Id } />,
+			<Board Id={ this.props.Id } Title={ this.props.Title } />,
 			document.getElementById('content')
 		);
 	}
