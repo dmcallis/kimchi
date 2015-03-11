@@ -1,0 +1,16 @@
+{
+  "name": "Kimchi",
+  "description": "Kimchi",
+  "author": "Kimchi",
+  "version": "0.0.1",
+  "license": "Kimchi",
+  "isSystem": false,
+  "contributors": [],
+  "controllers": {
+    "/Boards": "controllers/Boards.js",
+    "/Lists": "controllers/Lists.js",
+    "/Items": "controllers/Items.js"
+  },
+  "setup": "scripts/setup.js",
+  "teardown": "scripts/teardown.js"
+}
