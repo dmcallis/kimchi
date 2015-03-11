@@ -1,5 +1,8 @@
 div.list {
     width:300px;
+    border:1px solid;
+    padding:5px;
+    margin:5px;
 }
 
 div.item {
@@ -18,4 +21,3 @@ div.board {
   background-color:green;
   margin:5px;
 }
-
