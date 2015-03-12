@@ -1,14 +1,14 @@
 var fs = require('fs');
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var requestlib = require('request');
 var app = express();
 
-var KimchiBoardLocation = "http://junykimvm8211.redmond.corp.microsoft.com:8529/_db/KimchiDatabase/Apps/KimchiBoard";
+var KimchiBoardLocation = "http://127.0.0.1:8529/_db/_system/Apps/KimchiBoard";
 var KimchiDatabaseName = "KimchiDatabase";
 var KimchiBoardCollection = "/Boards/Boards";
 var KimchiListCollection = "/Lists/Lists";
-var KimchiItemCollection = "/Items/Items"
+var KimchiItemCollection = "/Items/Items";
 	
 app.use(bodyParser.json());
 
@@ -104,7 +104,23 @@ exports.deleteBoard = function (request, response) {
 /* List REST API */
 
 exports.lists = function (request, response) {
-	requestlib.get(KimchiBoardLocation + KimchiListCollection).pipe(response);
+    requestlib.get(KimchiBoardLocation + KimchiListCollection, function (err, arangoResponse) {
+        var listData = JSON.parse(arangoResponse.body);
+        response.set("Content-type", "application/json");
+        if (typeof (request.params.id) == "undefined") {
+            response.send(JSON.stringify(listData));
+        }
+        else {
+            var filteredData = listData.filter(function (list) {
+                if (list.BoardId == request.params.id) {
+                    return true
+                } else {
+                    return false;
+                }
+            });
+            response.send(JSON.stringify(filteredData));
+        }
+    });
 };
 
 exports.getList = function (request, response) {
