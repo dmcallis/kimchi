@@ -64,6 +64,11 @@ var List = React.createClass({
       // TODO: Send data to server
       $("#alertNewDataForm").show("slow");
   },
+  
+  deleteList: function()
+  {
+	alert('delete list clicked');
+  },
 
   render: function() {
     var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id;
@@ -86,6 +91,9 @@ var List = React.createClass({
     return (
       <div className="list col-sm-4">
         <div className="listTitle" id={ "listTitle_" + this.props.Id }>
+			<button className="btn btn-default btn-sm editable-cancel removelistbutton" onClick={this.deleteList.bind()} type="button">
+				<i className="glyphicon glyphicon-remove"></i>
+			</button>
             <h3>
                 <a href="#" id={ "listTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ listUpdateApiUrl } data-title="Enter new name for the list">
                     { this.props.Title }

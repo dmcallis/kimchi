@@ -36,9 +36,21 @@ button.removebutton {
 	float: right;
 }
 
+button.removelistbutton {
+	float: right;
+}
+
 div.item .removebutton {
     display: none;
 }
 div.item:hover .removebutton {
     display: inline;
+}
+
+div.list .removelistbutton {
+	display: none;
+}
+
+div.list:hover .removelistbutton{
+	display: inline;
 }
