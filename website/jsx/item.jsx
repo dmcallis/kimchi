@@ -118,7 +118,7 @@ var Items = React.createClass({
 	$( ".sortable" ).sortable({
 		connectWith: ".connectedSortable",
 		update: function( event, ui ) {
-			alert('position updated' + ui.position);
+			//alert('position updated' + ui.position);
 		}
 	}).disableSelection();
   }
