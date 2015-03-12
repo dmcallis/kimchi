@@ -64,7 +64,7 @@ var Board = React.createClass({
 
         // TODO: Send data to server
         $("#alertNewDataForm").show("slow");
-    },	
+    },
 
 	render: function() {
 		var boardUpdateApiUrl = "/boards/" + this.props.Id;
@@ -86,7 +86,7 @@ var Board = React.createClass({
 
 		return (
 			<div className="board">
-				<div className="boardTitle" id={ "boardTitle_" + this.props.Id }>					
+				<div className="boardTitle" id={ "boardTitle_" + this.props.Id }>
 		            <h3>
 		                <a href="#" id={ "boardTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ boardUpdateApiUrl } data-title="Enter new name for the board">
 							<h1><strong>{ this.props.Title }</strong></h1>
@@ -124,11 +124,11 @@ var BoardSummary = React.createClass({
 				$itemElement = document.getElementById(divId);
 				$itemElement.parentNode.removeChild($itemElement);
 			}
-		});	
-		
+		});
+
 		return false;
 	},
-	
+
 	viewBoard: function (board,event)
 	{
 		if (boardInterval != null)
