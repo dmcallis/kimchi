@@ -49,20 +49,34 @@ var Item = React.createClass({
         //     displayBox.show("slow");
         // });
 
-        var divId = "item_" + this.props.ListId + "_" + this.props.Id; // TODO: Unique id?
+        var divId = this.getDivId();
         return (
           <div id = {divId} className="item">
+			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
+				<i className="glyphicon glyphicon-remove"></i>
+			</button>
             <div id={ "itemContent_" + this.props.ListId + "_" + this.props.Id }>
                 <div id={ "itemContent_Display_" + this.props.ListId + "_" + this.props.Id }>
                     <h3 className="itemContent">{ this.props.Content }</h3>
                 </div>
-            </div>
+            </div>			
             <h5 className="itemOwner">Owner { this.props.Owner }</h5>
             <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
             <h5 className="itemCreatedDate">Modified { this.props.ModifiedDate }</h5>
           </div>
         );
-    }
+    },
+	
+	getDivId: function() {
+		return "item_" + this.props.ListId + "_" + this.props.Id; // TODO: Unique id?
+	},
+	
+	deleteItem: function (divId, itemId, listId)
+	{
+		$itemElement = document.getElementById(this.getDivId());
+		$itemElement.parentNode.removeChild($itemElement);
+		//todo: sync with server
+	}
 });
 
 var Items = React.createClass({

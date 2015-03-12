@@ -31,3 +31,7 @@ div.boardSummary {
 div.board {
     padding-left:10pt;
 }
+
+button.removebutton {
+	float: right;
+}
