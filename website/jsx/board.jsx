@@ -25,9 +25,9 @@ var NewBoardForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newBoardForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newBoardFormTitle" placeholder="Add a board..." ref="title" />
-                <input type="submit" value="Add" />
+            <form className="newBoardForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <input type="text" className="form-control" placeholder="Add a board..." ref="title" />
+                <input type="submit" className="btn btn-primary" value="Add" />
             </form>
         );
   }
@@ -95,7 +95,7 @@ var Board = React.createClass({
 		        </div>
 				<div>
 					<Lists data={ this.state.data } />
-					<NewListForm onNewListSubmit={ this.handleListSubmit } />
+					<NewListForm BoardId={ this.props.Id } onNewListSubmit={ this.handleListSubmit } />
 				</div>
 			</div>
 		);
@@ -104,11 +104,42 @@ var Board = React.createClass({
 
 var BoardSummary = React.createClass({
 	render: function() {
-		return (
-			<div className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
+		old =  (
+			<div id={ "board_" + this.props.Id} className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
+				<button className="btn btn-default btn-sm editable-cancel removeboardbutton" onClick={this.deleteBoard.bind()} type="button">
+					<i className="glyphicon glyphicon-remove"></i>
+				</button>
 				<h3 className="boardTitle">{ this.props.Title }</h3>
 			</div>
 		);
+		return (
+			<div id={ "board_" + this.props.Id} className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
+				<div className="panel panel-default" >
+					<button className="btn btn-default btn-sm editable-cancel removeboardbutton" onClick={this.deleteBoard.bind()} type="button">
+						<i className="glyphicon glyphicon-remove"></i>
+					</button>
+					<div className="panel-body" >
+						<strong>{ this.props.Title }</strong>
+					</div>
+				</div>
+			</div>
+
+		);
+	},
+
+	deleteBoard: function() {
+		var boardDeleteApiUrl = "/boards/" + this.props.Id + getUserIdQueryParam();
+		var divId = "board_" + this.props.Id;
+		$.ajax({
+			url: boardDeleteApiUrl,
+			type: "DELETE",
+			success: function(result){
+				$itemElement = document.getElementById(divId);
+				$itemElement.parentNode.removeChild($itemElement);
+			}
+		});
+
+		return false;
 	},
 
 	viewBoard: function (board,event)
@@ -150,7 +181,7 @@ var BoardList = React.createClass({
 		if (!BoardsData)
 		{
 			$.ajax({
-				url: this.props.url,
+				url: this.props.url + getUserIdQueryParam(),
 				dataType: 'json',
 				success: function(data){
 					BoardsData = data;
@@ -176,8 +207,10 @@ var BoardList = React.createClass({
 	{
 		return (
 			<div className="container">
+				<div className="jumbotron">
 				<Boards data = { this.state.data } />
 				<NewBoardForm onNewBoardSubmit={ this.handleBoardSubmit } />
+				</div>
 			</div>
 		);
 	},
