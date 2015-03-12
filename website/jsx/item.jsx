@@ -7,15 +7,28 @@ var NewItemForm = React.createClass({
             return;
         }
 
-        // TODO: return all properties, sync with .../sampleJson/item.json
-        this.props.onNewItemSubmit(
-            {
-                Owner: owner,
-                Content: content,
-                CreatedDate: new Date().toLocaleTimeString(),
-                ModifiedDate: new Date().toLocaleTimeString()
-            }
-        );
+        var onNewItemSubmit = this.props.onNewItemSubmit;
+		var newItemApiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items" + getUserIdQueryParam();
+
+        $.ajax({
+			type: "POST",
+		    url: newItemApiUrl,
+		    dataType: "text",// "json", // TODO: extract id from json response
+			data: JSON.stringify({ Content: content }),
+		    success: function(data){
+				// TODO: return all properties, sync with .../sampleJson/item.json
+                onNewItemSubmit(
+                {
+                    Owner: owner,
+                    Content: content,
+                    CreatedDate: new Date().toLocaleTimeString(),
+                    ModifiedDate: new Date().toLocaleTimeString()
+                });
+		    },
+		    error: function(xhr, status, err) {
+		        console.error(newBoardApiUrl, status, err.toString());
+		    }
+		});
 
         this.refs.content.getDOMNode().value = "";
         return;
@@ -55,7 +68,7 @@ var Item = React.createClass({
 
         var divId = this.getDivId();
 
-        return (			
+        return (
           <div id = {divId} className = "well">
 			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
 				<i className="glyphicon glyphicon-remove"></i>
