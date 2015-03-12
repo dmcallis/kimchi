@@ -108,7 +108,7 @@ var Items = React.createClass({
     });
 
     return (
-      <div className="itemCollection sortable connectedSortable">
+      <div data-listid={this.props.ListId} className="itemCollection sortable connectedSortable">
         { itemNodes }
       </div>
     );
@@ -118,7 +118,8 @@ var Items = React.createClass({
 	$( ".sortable" ).sortable({
 		connectWith: ".connectedSortable",
 		update: function( event, ui ) {
-			//alert('position updated' + ui.position);
+			var listid = $(this)[0].attributes["data-listid"];
+			var newOrderedElements = $(this).sortable('toArray');
 		}
 	}).disableSelection();
   }

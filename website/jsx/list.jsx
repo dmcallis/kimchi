@@ -128,7 +128,7 @@ var List = React.createClass({
           </h3>
         </div>
         <div className="panel-body">
-          <Items data={ this.state.data } BoardId={ this.props.BoardId } />
+          <Items data={ this.state.data } BoardId={ this.props.BoardId } ListId={ this.props.Id }/>
           <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
         </div>
       </div>
