@@ -25,9 +25,9 @@ var NewBoardForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newBoardForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newBoardFormTitle" placeholder="Add a board..." ref="title" />
-                <input type="submit" value="Add" />
+            <form className="newBoardForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <input type="text" className="form-control" placeholder="Add a board..." ref="title" />
+                <input type="submit" className="btn btn-primary" value="Add" />
             </form>
         );
   }
@@ -64,7 +64,7 @@ var Board = React.createClass({
 
         // TODO: Send data to server
         $("#alertNewDataForm").show("slow");
-    },	
+    },
 
 	render: function() {
 		var boardUpdateApiUrl = "/boards/" + this.props.Id;
@@ -86,7 +86,7 @@ var Board = React.createClass({
 
 		return (
 			<div className="board">
-				<div className="boardTitle" id={ "boardTitle_" + this.props.Id }>					
+				<div className="boardTitle" id={ "boardTitle_" + this.props.Id }>
 		            <h3>
 		                <a href="#" id={ "boardTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ boardUpdateApiUrl } data-title="Enter new name for the board">
 							<h1><strong>{ this.props.Title }</strong></h1>
@@ -95,7 +95,7 @@ var Board = React.createClass({
 		        </div>
 				<div>
 					<Lists data={ this.state.data } />
-					<NewListForm onNewListSubmit={ this.handleListSubmit } />
+					<NewListForm BoardId={ this.props.Id } onNewListSubmit={ this.handleListSubmit } />
 				</div>
 			</div>
 		);
@@ -128,7 +128,7 @@ var BoardSummary = React.createClass({
 	},
 
 	deleteBoard: function() {
-		var boardDeleteApiUrl = "/boards/" + this.props.Id;
+		var boardDeleteApiUrl = "/boards/" + this.props.Id + getUserIdQueryParam();
 		var divId = "board_" + this.props.Id;
 		$.ajax({
 			url: boardDeleteApiUrl,
@@ -137,11 +137,11 @@ var BoardSummary = React.createClass({
 				$itemElement = document.getElementById(divId);
 				$itemElement.parentNode.removeChild($itemElement);
 			}
-		});	
-		
+		});
+
 		return false;
 	},
-	
+
 	viewBoard: function (board,event)
 	{
 		if (boardInterval != null)
@@ -181,7 +181,7 @@ var BoardList = React.createClass({
 		if (!BoardsData)
 		{
 			$.ajax({
-				url: this.props.url,
+				url: this.props.url + getUserIdQueryParam(),
 				dataType: 'json',
 				success: function(data){
 					BoardsData = data;

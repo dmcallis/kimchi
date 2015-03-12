@@ -23,12 +23,14 @@ var NewListForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newListForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newListFormTitle" placeholder="Add a list..." ref="title" />
-                <input type="submit" value="Add" />
+            <form className="newListForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <div className="form-group">
+                    <input type="text" className="form-control" placeholder="Add a list..." ref="title" />
+                </div>
+                <input type="submit" className="btn btn-primary" value="Add" />
             </form>
-        );
-  }
+        )
+    }
 });
 
 var List = React.createClass({
@@ -37,17 +39,17 @@ var List = React.createClass({
   },
 
   loadItemsFromServer: function() {
-    var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items";
+    var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items" + getUserIdQueryParam();
 
     $.ajax({
-      url: apiUrl,
-      dataType: 'json',
-      success: function(data){
-        this.setState({ data: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(apiUrl, status, err.toString());
-      }.bind(this)
+        url: apiUrl,
+        dataType: 'json',
+        success: function(data){
+            this.setState({ data: data });
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(apiUrl, status, err.toString());
+        }.bind(this)
     });
   },
 
@@ -64,10 +66,10 @@ var List = React.createClass({
       // TODO: Send data to server
       $("#alertNewDataForm").show("slow");
   },
-  
+
   deleteList: function()
   {
-	var listDeleteApiUrl = "/lists/" + this.props.Id;
+	var listDeleteApiUrl = "/lists/" + this.props.Id + getUserIdQueryParam();
 	var divId = "list_" + this.props.Id;
 	$.ajax({
 		url: listDeleteApiUrl,
@@ -76,11 +78,11 @@ var List = React.createClass({
 			$itemElement = document.getElementById(divId);
 			$itemElement.parentNode.removeChild($itemElement);
 		}
-	});		
+	});
   },
 
   render: function() {
-    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id;
+    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id + getUserIdQueryParam();
     $("#listTitle_edit_" + this.props.Id).editable({
         ajaxOptions: {
             type: "put"
@@ -90,7 +92,7 @@ var List = React.createClass({
             if($.trim(value) == '') {
                 return 'This field is required';
             }
-        },        
+        },
         params: function(params) {
             params.Title = params.value;
             return params;

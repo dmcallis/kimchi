@@ -5,6 +5,10 @@ div._list {
     margin:5px;
 }
 
+div.sortable {
+	min-height:20px;
+}
+
 div._item {
     background-color:green;
     padding-top:1pt;
