@@ -72,6 +72,11 @@ var List = React.createClass({
             type: "put"
         },
         placement: "right",
+        validate: function(value) {
+            if($.trim(value) == '') {
+                return 'This field is required';
+            }
+        },        
         params: function(params) {
             params.Title = params.value;
             return params;
@@ -87,7 +92,7 @@ var List = React.createClass({
                 </a>
             </h3>
         </div>
-		<Items data = { this.state.data } />
+		<Items data={ this.state.data } BoardId={ this.props.BoardId } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
       </div>
     );
