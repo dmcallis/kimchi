@@ -115,7 +115,7 @@ var BoardSummary = React.createClass({
 	},
 
 	deleteBoard: function() {
-		var boardDeleteApiUrl = "/boards/" + this.props.Id;
+		var boardDeleteApiUrl = "/boards/" + this.props.Id + getUserIdQueryParam();
 		var divId = "board_" + this.props.Id;
 		$.ajax({
 			url: boardDeleteApiUrl,
@@ -168,7 +168,7 @@ var BoardList = React.createClass({
 		if (!BoardsData)
 		{
 			$.ajax({
-				url: this.props.url,
+				url: this.props.url + getUserIdQueryParam(),
 				dataType: 'json',
 				success: function(data){
 					BoardsData = data;

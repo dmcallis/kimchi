@@ -37,7 +37,7 @@ var List = React.createClass({
   },
 
   loadItemsFromServer: function() {
-    var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items";
+    var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items" + getUserIdQueryParam();
 
     $.ajax({
       url: apiUrl,
@@ -67,7 +67,7 @@ var List = React.createClass({
   
   deleteList: function()
   {
-	var listDeleteApiUrl = "/lists/" + this.props.Id;
+	var listDeleteApiUrl = "/lists/" + this.props.Id + getUserIdQueryParam();
 	var divId = "list_" + this.props.Id;
 	$.ajax({
 		url: listDeleteApiUrl,
@@ -80,7 +80,7 @@ var List = React.createClass({
   },
 
   render: function() {
-    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id;
+    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id + getUserIdQueryParam();
     $("#listTitle_edit_" + this.props.Id).editable({
         ajaxOptions: {
             type: "put"
