@@ -23,12 +23,14 @@ var NewListForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newListForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newListFormTitle" placeholder="Add a list..." ref="title" />
-                <input type="submit" value="Add" />
+            <form className="newListForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <div className="form-group">
+                    <input type="text" className="form-control" placeholder="Add a list..." ref="title" />
+                </div>
+                <input type="submit" className="btn btn-primary" value="Add" />
             </form>
-        );
-  }
+        )
+    }
 });
 
 var List = React.createClass({
@@ -40,14 +42,14 @@ var List = React.createClass({
     var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items" + getUserIdQueryParam();
 
     $.ajax({
-      url: apiUrl,
-      dataType: 'json',
-      success: function(data){
-        this.setState({ data: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(apiUrl, status, err.toString());
-      }.bind(this)
+        url: apiUrl,
+        dataType: 'json',
+        success: function(data){
+            this.setState({ data: data });
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(apiUrl, status, err.toString());
+        }.bind(this)
     });
   },
 
@@ -64,7 +66,7 @@ var List = React.createClass({
       // TODO: Send data to server
       $("#alertNewDataForm").show("slow");
   },
-  
+
   deleteList: function()
   {
 	var listDeleteApiUrl = "/lists/" + this.props.Id + getUserIdQueryParam();
@@ -76,7 +78,7 @@ var List = React.createClass({
 			$itemElement = document.getElementById(divId);
 			$itemElement.parentNode.removeChild($itemElement);
 		}
-	});		
+	});
   },
 
   render: function() {
@@ -90,14 +92,14 @@ var List = React.createClass({
             if($.trim(value) == '') {
                 return 'This field is required';
             }
-        },        
+        },
         params: function(params) {
             params.Title = params.value;
             return params;
         }
     });
 
-    return (
+    var old = (
       <div className="list col-sm-4" id= { "list_" + this.props.Id}>
         <div className="listTitle" id={ "listTitle_" + this.props.Id }>
 			<button className="btn btn-default btn-sm editable-cancel removelistbutton" onClick={this.deleteList.bind()} type="button">
@@ -111,6 +113,25 @@ var List = React.createClass({
         </div>
 		<Items data={ this.state.data } BoardId={ this.props.BoardId } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
+      </div>
+    );
+
+    return (
+      <div className="list col-sm-4">
+      <div className="panel panel-default" id={ "list_" + this.props.Id}>
+        <div className="panel-heading" id={ "listTitle_" + this.props.Id }>
+          <button className="btn btn-default btn-sm editable-cancel removelistbutton" onClick={this.deleteList.bind()} type="button">
+            <i className="glyphicon glyphicon-remove"></i>
+          </button>
+          <h3 className="panel-title" id={ "listTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ listUpdateApiUrl } data-title="Enter new name for the list">
+            { this.props.Title }
+          </h3>
+        </div>
+        <div className="panel-body">
+          <Items data={ this.state.data } BoardId={ this.props.BoardId } />
+          <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
+        </div>
+      </div>
       </div>
     );
   }

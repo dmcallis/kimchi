@@ -23,16 +23,18 @@ var NewItemForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newItemForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newItemFormContent" placeholder="Type something..." ref="content" />
-                <input type="submit" value="Add" />
+            <form className="newListForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <div className="form-group">
+                    <input type="text" className="form-control" placeholder="Type something..." ref="content" />
+                </div>
+                <input type="submit" className="btn btn-default" value="Add" />
             </form>
         );
   }
 });
 
 var Item = React.createClass({
-    render: function() {        
+    render: function() {
         var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
         $("#itemContent_edit_" + this.getUniqueId()).editable({
             ajaxOptions: {
@@ -44,7 +46,7 @@ var Item = React.createClass({
 			    if($.trim(value) == '') {
 			        return 'This field is required';
 			    }
-			},            
+			},
             params: function(params) {
                 params.Content = params.value;
                 return params;
@@ -52,9 +54,9 @@ var Item = React.createClass({
         });
 
         var divId = this.getDivId();
-		
+
         return (			
-          <div id = { divId } className="item">
+          <div id = {divId} className = "well">
 			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
 				<i className="glyphicon glyphicon-remove"></i>
 			</button>
@@ -71,15 +73,15 @@ var Item = React.createClass({
           </div>
         );
     },
-	
+
 	getUniqueId: function() {
 		return this.props.BoardId + "_" + this.props.ListId + "_" + this.props.Id;
 	},
-	
+
 	getDivId: function(){
 		return "item_" + this.getUniqueId();
 	},
-	
+
 	deleteItem: function ()
 	{
 		var itemDeleteApiUrl = "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
@@ -91,7 +93,7 @@ var Item = React.createClass({
 				$itemElement = document.getElementById(divId);
 				$itemElement.parentNode.removeChild($itemElement);
 			}
-		});		
+		});
 	}
 });
 
