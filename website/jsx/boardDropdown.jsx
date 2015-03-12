@@ -21,7 +21,6 @@ var BoardDropdown = React.createClass({
 	},
 	
 	render: function () {
-		console.log("rendering boards dropdown");
 		var boards = this.state.data;
 		return (
 			<ul className="nav navbar-nav">	
@@ -40,15 +39,14 @@ var BoardDropdown = React.createClass({
 	},	
 	
 	loadBoards: function() {
-		console.log("load boards");
 		if (!BoardsData)
 		{
 			$.ajax({
 				url: this.props.url,
 				dataType: 'json',
 				success: function(data){
-					this.setState({ data: data });
 					BoardsData = data;
+					this.setState({ data: BoardsData });
 				}.bind(this),
 				error: function(xhr, status, err) {
 					console.error(this.props.url, status, err.toString());
@@ -63,5 +61,11 @@ var BoardDropdown = React.createClass({
 	
 	componentDidMount: function() {
 		this.loadBoards();
+		$(document).on("newBoardEvent", this.onNewBoard);
+	},
+	
+	onNewBoard: function(event)
+	{
+		this.setState({ data: event.message });
 	}
 });

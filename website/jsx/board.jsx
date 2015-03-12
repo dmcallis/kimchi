@@ -132,8 +132,8 @@ var BoardList = React.createClass({
 				url: this.props.url,
 				dataType: 'json',
 				success: function(data){
-					this.setState({ data: data });
 					BoardsData = data;
+					this.setState({ data: BoardsData });
 				}.bind(this),
 				error: function(xhr, status, err) {
 					console.error(this.props.url, status, err.toString());
@@ -163,8 +163,13 @@ var BoardList = React.createClass({
 	
 	handleBoardSubmit: function(board) {
       var boards = this.state.data;
-      var newBoards = boards.concat([board]);
-      this.setState({data: newBoards});
+      BoardsData = boards.concat([board]);
+      this.setState({data: BoardsData});
+	  
+	  var event = $.Event('newBoardEvent');
+	  event.message = BoardsData;
+
+	  $.event.trigger(event);
 
       // TODO: Send data to server
       $("#alertNewDataForm").show("slow");
