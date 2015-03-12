@@ -1,5 +1,38 @@
 var boardInterval = null;
 
+var NewBoardForm = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var owner = "N/A"; // TODO: Value from current session
+        var title = this.refs.title.getDOMNode().value.trim();
+        if (!owner || !title) {
+            return;
+        }
+
+        // TODO: return all properties, sync with .../sampleJson/board.json
+        this.props.onNewBoardSubmit(
+            {
+                Owner: owner,
+                Title: title,
+                CreatedDate: new Date().toLocaleTimeString(),
+                ModifiedDate: new Date().toLocaleTimeString()
+            }
+        );
+
+        this.refs.title.getDOMNode().value = "";
+        return;
+    },
+
+    render: function() {
+        return (
+            <form className="newBoardForm" onSubmit={ this.handleSubmit }>
+                <input type="text" class="newBoardFormTitle" placeholder="Add a board..." ref="title" />
+                <input type="submit" value="Add" />
+            </form>
+        );
+  }
+});
+
 var Board = React.createClass({
 	getInitialState: function() {
         return { data: [] };
@@ -10,8 +43,7 @@ var Board = React.createClass({
     },
 
     loadListsFromServer: function() {
-		// TODO: Call API with boardId
-		var apiUrl = "sampleJson/list.json";
+		var apiUrl = "boards/" + this.props.Id + "/lists"
 
 		$.ajax({
 		    url: apiUrl,
@@ -60,11 +92,10 @@ var BoardSummary = React.createClass({
 
 	viewBoard: function (board,event)
 	{
-		console.log('viewBoard clicked');
-		if (boardInterval != null)
-		{
-			clearInterval(boardInterval);
-		}
+		if (boardInterval != null) 
+ 		{ 
+ 			clearInterval(boardInterval); 
+ 		} 
 
 		React.render(
 			<Board Id={ this.props.Id } Title={ this.props.Title } />,
@@ -77,7 +108,7 @@ var Boards = React.createClass({
 	render: function() {
 		var boardNodes = this.props.data.map(function (board) {
 			return (
-				<BoardSummary Title={ board.Title } />
+				<BoardSummary key={ board.Id } Id={ board.Id } Title={ board.Title } />
 			);
 		});
 
@@ -86,7 +117,7 @@ var Boards = React.createClass({
 				{ boardNodes }
 			</div>
 		);
-	}
+	},	
 });
 
 var BoardList = React.createClass({
@@ -94,22 +125,30 @@ var BoardList = React.createClass({
 		return { data: [] };
 	},
 
-	loadBoardsFromServer: function() {
-		$.ajax({
-			url: this.props.url,
-			dataType: 'json',
-			success: function(data){
-				this.setState({ data: data });
-			}.bind(this),
-			error: function(xhr, status, err) {
-				console.error(this.props.url, status, err.toString());
-			}.bind(this)
-		});
+	loadBoards: function() {
+		if (!BoardsData)
+		{
+			$.ajax({
+				url: this.props.url,
+				dataType: 'json',
+				success: function(data){
+					BoardsData = data;
+					this.setState({ data: BoardsData });
+				}.bind(this),
+				error: function(xhr, status, err) {
+					console.error(this.props.url, status, err.toString());
+				}.bind(this)
+			});
+		}
+		else
+		{
+			this.setState({ data: BoardsData });
+		}
 	},
 
 	componentDidMount: function() {
-		this.loadBoardsFromServer();
-		boardInterval = setInterval(this.loadBoardsFromServer, this.props.pollInterval);
+		this.loadBoards();
+		//boardInterval = setInterval(this.loadBoards, this.props.pollInterval);
 	},
 
 	render: function ()
@@ -117,8 +156,23 @@ var BoardList = React.createClass({
 		return (
 			<div className="container">
 				<Boards data = { this.state.data } />
+				<NewBoardForm onNewBoardSubmit={ this.handleBoardSubmit } />
 			</div>
 		);
+	},
+	
+	handleBoardSubmit: function(board) {
+      var boards = this.state.data;
+      BoardsData = boards.concat([board]);
+      this.setState({data: BoardsData});
+	  
+	  var event = $.Event('newBoardEvent');
+	  event.message = BoardsData;
+
+	  $.event.trigger(event);
+
+      // TODO: Send data to server
+      $("#alertNewDataForm").show("slow");
 	}
 });
 

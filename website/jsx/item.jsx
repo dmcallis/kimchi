@@ -32,24 +32,44 @@ var NewItemForm = React.createClass({
 });
 
 var Item = React.createClass({
+    render: function() {
+        // var displayBox = $("#itemContent_Display_" + this.props.ListId + "_" + this.props.Id);
+        // var editBox = $("#itemContent_Edit_" + this.props.ListId + "_" + this.props.Id);
+        // var editCancelButton = $("#itemContent_Edit_Cancel_" + this.props.ListId + "_" + this.props.Id);
+        //
+        // editBox.hide();
+        //
+        // displayBox.click(function() {
+        //     displayBox.hide("slow");
+        //     editBox.show("slow");
+        // });
+        //
+        // editCancelButton.click(function () {
+        //     editBox.hide("slow");
+        //     displayBox.show("slow");
+        // });
 
-  render: function() {
-    return (
-      <div id = {this.props.Id} className="item">
-          <h3 className="itemContent">{ this.props.Content }</h3>
-          <h5 className="itemOwner">Owner { this.props.Owner }</h5>
-          <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
-          <h5 className="itemCreatedDate">Modified { this.props.ModifiedDate }</h5>
-      </div>
-    );
-  }
+        var divId = "item_" + this.props.ListId + "_" + this.props.Id; // TODO: Unique id?
+        return (
+          <div id = {divId} className="item">
+            <div id={ "itemContent_" + this.props.ListId + "_" + this.props.Id }>
+                <div id={ "itemContent_Display_" + this.props.ListId + "_" + this.props.Id }>
+                    <h3 className="itemContent">{ this.props.Content }</h3>
+                </div>
+            </div>
+            <h5 className="itemOwner">Owner { this.props.Owner }</h5>
+            <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
+            <h5 className="itemCreatedDate">Modified { this.props.ModifiedDate }</h5>
+          </div>
+        );
+    }
 });
 
 var Items = React.createClass({
   render: function() {
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item Id = { item.Id } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
+        <Item key={ item.Id } Id={ item.Id } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
       );
     });
 

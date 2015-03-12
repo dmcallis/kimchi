@@ -1,4 +1,9 @@
 var fs = require('fs');
+var express = require('express');
+var bodyParser = require('body-parser')
+var app = express();
+
+app.use(bodyParser.json());
 
 function containsKey(collection, key, value) {
     var index = -1;
@@ -30,6 +35,8 @@ catch (e) {
     console.log(e);
 }
 
+/* Board REST API */
+
 exports.boards = function (request, response) {
     response.set("Content-type", "application/json");
     response.send(JSON.stringify(boards));
@@ -47,14 +54,13 @@ exports.getBoard = function (request, response) {
 };
 
 exports.addBoard = function (request, response) {
-    var board = JSON.parse(request.body);
-    response.status(200).send("Board created\nData: " + JSON.stringify(board));
+    response.status(200).send("Board created\nData: " + JSON.stringify(request.body));
 };
 
 exports.updateBoard = function (request, response) {
     var index = containsKey(boards, "Id", request.params.id);
     if (index > -1) {
-        response.status(200).send("Board updated\nData: " + JSON.stringify(board));
+        response.status(200).send("Board updated\nData: " + JSON.stringify(boards[index]));
     }
     else {
         response.status(400).send("Board (Id: " + request.params.id + ") not found");
@@ -68,5 +74,89 @@ exports.deleteBoard = function (request, response) {
     }
     else {
         response.status(400).send("Board (Id: " + request.params.id + ") not found");
+    }
+};
+
+/* List REST API */
+
+exports.lists = function (request, response) {
+    response.set("Content-type", "application/json");
+    response.send(JSON.stringify(lists));
+};
+
+exports.getList = function (request, response) {
+    var index = containsKey(lists, "Id", request.params.listid);
+    if (index > -1) {
+        response.set("Content-type", "application/json");
+        response.send(JSON.stringify(lists[index]));
+    }
+    else {
+        response.status(400).send("List (Id: " + request.params.listid + ") not found");
+    }
+};
+
+exports.addList = function (request, response) {
+    response.status(200).send("List created\nData: " + JSON.stringify(request.body));
+};
+
+exports.updateList = function (request, response) {
+    var index = containsKey(lists, "Id", request.params.listid);
+    if (index > -1) {
+        response.status(200).send("List updated\nData: " + JSON.stringify(lists[index]));
+    }
+    else {
+        response.status(400).send("List (Id: " + request.params.listid + ") not found");
+    }
+};
+
+exports.deleteList = function (request, response) {
+    var index = containsKey(lists, "Id", request.params.listid);
+    if (index > -1) {
+        response.status(200).send("List (Id: " + request.params.listid + ") will be deleted by Jun Yong Kim in the near future. : )");
+    }
+    else {
+        response.status(400).send("List (Id: " + request.params.listid + ") not found");
+    }
+};
+
+/* Item REST API */
+
+exports.items = function (request, response) {
+    response.set("Content-type", "application/json");
+    response.send(JSON.stringify(items));
+};
+
+exports.getItem = function (request, response) {
+    var index = containsKey(items, "Id", request.params.itemid);
+    if (index > -1) {
+        response.set("Content-type", "application/json");
+        response.send(JSON.stringify(items[index]));
+    }
+    else {
+        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
+    }
+};
+
+exports.addItem = function (request, response) {
+    response.status(200).send("Item created\nData: " + JSON.stringify(request.body));
+};
+
+exports.updateItem = function (request, response) {
+    var index = containsKey(items, "Id", request.params.itemid);
+    if (index > -1) {
+        response.status(200).send("Item updated\nData: " + JSON.stringify(items[index]));
+    }
+    else {
+        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
+    }
+};
+
+exports.deleteItem = function (request, response) {
+    var index = containsKey(items, "Id", request.params.itemid);
+    if (index > -1) {
+        response.status(200).send("Item (Id: " + request.params.itemid + ") will be deleted by Jun Yong Kim in the near future. : )");
+    }
+    else {
+        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
     }
 };

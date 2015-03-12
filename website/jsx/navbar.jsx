@@ -13,10 +13,8 @@ var KiNavbar = React.createClass({
 	          <a className="navbar-brand" href="#">
 	          	<img style={logoStyle} src="images/kimchi-logo-white.svg" />
 			  </a>
+			  <BoardDropdown url="boards"/>
 	        </div>
-	        <button type="button" className="btn btn-default navbar-btn" aria-label="Boards">
-  				Boards
-			</button>
 			<FbLogin />
 	      </div>
 	    </nav>
