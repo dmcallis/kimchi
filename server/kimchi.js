@@ -2,10 +2,14 @@ var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser')
 var requestlib = require('request');
+var http = require('http')	
 var app = express();
 
-var KimchiBoardLocation = "http://junykimvm8211.redmond.corp.microsoft.com:8529/_db/KimchiDatabase/Apps/KimchiBoard";
+var KimchiBoardHost = "junykimvm8211.redmond.corp.microsoft.com"
+var KimchiBoardPort = 8529
 var KimchiDatabaseName = "KimchiDatabase";
+var KimchiBoardPath = "/_db/" + KimchiDatabaseName + "/Apps/KimchiBoard"
+var KimchiBoardLocation = "http://" + KimchiBoardHost +  ":" + KimchiBoardPort + KimchiBoardPath;
 var KimchiBoardCollection = "/Boards/Boards";
 var KimchiListCollection = "/Lists/Lists";
 var KimchiItemCollection = "/Items/Items"
@@ -91,6 +95,54 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
     }
 }
 
+function functionHelperUpdate(data, collectionPath, collectionKey)
+{	
+//	console.log(data);
+//	console.log(collectionPath);
+//	console.log(collectionKey);
+	stringData = JSON.stringify(data);
+//	console.log(stringData)
+	var headers = {
+			  'Content-Type': 'application/json',
+			  'Content-Length': stringData.length
+			};
+
+	var options = {
+	  host: KimchiBoardHost,
+	  port: KimchiBoardPort,
+	  path: collectionPath + "/" + collectionKey, // '/_db/KimchiDatabase/Apps/KimchiBoard/Boards/Boards/3553081455',
+	  method: 'PUT',
+	  headers: headers
+	};
+
+//	console.log(options)
+	var req = http.request(options);
+	req.on('error', function(e) {
+			console.log(e)
+		});
+
+	req.write(stringData);
+	req.end();
+//	console.log(req);
+}
+
+function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse, paramId, collectionPath, collectionName, jsonBody)
+{
+    var success = false;
+	if (!error && requestlibResponse.statusCode == 200) {
+        var collectionParsed = JSON.parse(body);
+        var index = containsKey(collectionParsed, "Id", paramId);
+        if (index > -1) {
+        	functionHelperUpdate(jsonBody, collectionPath, collectionParsed[index]._key)
+        	httpResponse.status(200).send(collectionName + " (Id: " + paramId + " _key: " + collectionParsed[index]._key + ") is updated ");
+        	success = true
+    	};
+	}
+    if (!success)
+    {
+    	httpResponse.status(400).send(collectionName + " (Id: " + paramId + ") not found");
+    }
+}
 /* Board REST API */
 
 exports.boards = function (request, response) {
@@ -117,13 +169,13 @@ exports.addBoard = function (request, response) {
 };
 
 exports.updateBoard = function (request, response) {
-    var index = containsKey(boards, "Id", request.params.id);
-    if (index > -1) {
-        response.status(200).send("Board updated\nData: " + JSON.stringify(boards[index]));
-    }
-    else {
-        response.status(400).send("Board (Id: " + request.params.id + ") not found");
-    }
+	var paramId = request.params.id;
+	var collectionName = "Board";
+	var collectionPath = KimchiBoardPath + KimchiBoardCollection
+	var collectionUrl = KimchiBoardLocation + KimchiBoardCollection;
+	requestlib(collectionUrl, function (error, requestlibResponse, body) {
+		callbackHelperUpdateById(error, requestlibResponse, body, response, paramId, collectionPath, collectionName, request.body)
+	});
 };
 
 exports.deleteBoard = function (request, response) {
@@ -155,13 +207,13 @@ exports.addList = function (request, response) {
 };
 
 exports.updateList = function (request, response) {
-    var index = containsKey(lists, "Id", request.params.listid);
-    if (index > -1) {
-        response.status(200).send("List updated\nData: " + JSON.stringify(lists[index]));
-    }
-    else {
-        response.status(400).send("List (Id: " + request.params.listid + ") not found");
-    }
+	var paramId = request.params.listid;
+	var collectionName = "List";
+	var collectionPath = KimchiBoardPath + KimchiListCollection
+	var collectionUrl = KimchiBoardLocation + KimchiListCollection;
+	requestlib(collectionUrl, function (error, requestlibResponse, body) {
+		callbackHelperUpdateById(error, requestlibResponse, body, response, paramId, collectionPath, collectionName, request.body)
+	});
 };
 
 exports.deleteList = function (request, response) {
@@ -193,13 +245,13 @@ exports.addItem = function (request, response) {
 };
 
 exports.updateItem = function (request, response) {
-    var index = containsKey(items, "Id", request.params.itemid);
-    if (index > -1) {
-        response.status(200).send("Item updated\nData: " + JSON.stringify(items[index]));
-    }
-    else {
-        response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
-    }
+	var paramId = request.params.itemid;
+	var collectionName = "Item";
+	var collectionPath = KimchiBoardPath + KimchiItemCollection
+	var collectionUrl = KimchiBoardLocation + KimchiItemCollection;
+	requestlib(collectionUrl, function (error, requestlibResponse, body) {
+		callbackHelperUpdateById(error, requestlibResponse, body, response, paramId, collectionPath, collectionName, request.body)
+	});
 };
 
 exports.deleteItem = function (request, response) {
