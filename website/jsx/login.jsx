@@ -1,10 +1,24 @@
+
+
 var FbLogin = React.createClass({
+  getInitialState: function() {
+    return {name: "", picture: "", id: ""};
+  },
+
   render: function() {
+    var userDisplay;
+    if (null == this.state.name || "" == this.state.name) {
+      userDisplay = (<div><span className="glyphicon glyphicon-user" aria-hidden="true"></span> Sign-in</div>);
+    }
+    else {
+      userDisplay = (<div><img src={this.state.picture} width="24px" height="24px"> </img> {this.state.name}</div>);      
+    };
+
 
     return (
-      <button type="button" onClick={this.handleClick} className="btn btn-default navbar-btn navbar-right" aria-label="Sign-in">
-          <span className="glyphicon glyphicon-user" aria-hidden="true"></span> Sign-in
-      </button>
+        <button type="button" onClick={this.handleClick} className="btn btn-default navbar-btn navbar-right" aria-label="Sign-in">
+        {userDisplay}
+        </button>
     );
   },
 
@@ -45,13 +59,24 @@ var FbLogin = React.createClass({
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  testAPI: function() {
+  fetchCurrentUser: function() {
+    this.updateUserStatus (null);
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-    console.log('Successful login for: ' + response.name);
-    document.getElementById('footer').innerHTML =
-      'Thanks for logging in, ' + response.name + '!';
-    });
+    FB.api('me?fields=name,picture', this.fbApiMeCallback);
+  },
+
+  fbApiMeCallback: function(response) {
+      console.log ('Successful login for: ' + response.id + ' ' + response.name);
+      this.updateUserStatus (response);
+      SetStatusMessage('User ID: ' + response.id);
+  },
+
+  updateUserStatus: function(user) {
+    CurrentUser = user;
+    if (null == user)
+        this.setState ({name: "", picture: "", id: ""});
+    else
+        this.setState ({name: user.name, picture: user.picture.data.url, id: user.id});
   },
 
   // This is called with the results from from FB.getLoginStatus().
@@ -64,15 +89,16 @@ var FbLogin = React.createClass({
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      this.testAPI();
+      this.fetchCurrentUser();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      // document.getElementById('footer').innerText = 'Please log into this app.';
-      SetStatusMessage ('Please log into this app.');
+      CurrentUser = null;
+      SetStatusMessage ('Please sign into this app.');
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      // document.getElementById('footer').innerHTML = 'Please log into Facebook.';
+      CurrentUser = null;
+      SetStatusMessage ('Please sign into Facebook.');
     }
   },
 
