@@ -82,7 +82,7 @@ var Item = React.createClass({
 	
 	deleteItem: function ()
 	{
-		var itemDeleteApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
+		var itemDeleteApiUrl = "/lists/" + this.props.ListId + "/items/" + this.props.Id;
 		var divId = this.getDivId();
 		$.ajax({
 			url: itemDeleteApiUrl,

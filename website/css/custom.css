@@ -36,6 +36,10 @@ button.removebutton {
 	float: right;
 }
 
+button.removeboardbutton {
+	float: right;
+}
+
 button.removelistbutton {
 	float: right;
 }
@@ -52,5 +56,13 @@ div.list .removelistbutton {
 }
 
 div.list:hover .removelistbutton{
+	display: inline;
+}
+
+div.boardSummary .removeboardbutton {
+	display: none;
+}
+
+div.boardSummary:hover .removeboardbutton{
 	display: inline;
 }
