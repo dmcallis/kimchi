@@ -47,10 +47,10 @@ button.removelistbutton {
 	float: right;
 }
 
-div.item .removebutton {
+div.well .removebutton {
     display: none;
 }
-div.item:hover .removebutton {
+div.well:hover .removebutton {
     display: inline;
 }
 
