@@ -97,7 +97,7 @@ var List = React.createClass({
         }
     });
 
-    return (
+    var old = (
       <div className="list col-sm-4" id= { "list_" + this.props.Id}>
         <div className="listTitle" id={ "listTitle_" + this.props.Id }>
 			<button className="btn btn-default btn-sm editable-cancel removelistbutton" onClick={this.deleteList.bind()} type="button">
@@ -111,6 +111,25 @@ var List = React.createClass({
         </div>
 		<Items data={ this.state.data } BoardId={ this.props.BoardId } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
+      </div>
+    );
+
+    return (
+      <div className="list col-sm-4">
+      <div className="panel panel-default" id={ "list_" + this.props.Id}>
+        <div className="panel-heading" id={ "listTitle_" + this.props.Id }>
+          <button className="btn btn-default btn-sm editable-cancel removelistbutton" onClick={this.deleteList.bind()} type="button">
+            <i className="glyphicon glyphicon-remove"></i>
+          </button>
+          <h3 className="panel-title" id={ "listTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ listUpdateApiUrl } data-title="Enter new name for the list">
+            { this.props.Title }
+          </h3>
+        </div>
+        <div className="panel-body">
+          <Items data={ this.state.data } BoardId={ this.props.BoardId } />
+          <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
+        </div>
+      </div>
       </div>
     );
   }

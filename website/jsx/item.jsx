@@ -54,7 +54,7 @@ var Item = React.createClass({
         var divId = this.getDivId();
 		
         return (			
-          <div id = { divId } className="item">
+          <div className = "well">
 			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
 				<i className="glyphicon glyphicon-remove"></i>
 			</button>

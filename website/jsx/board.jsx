@@ -104,13 +104,26 @@ var Board = React.createClass({
 
 var BoardSummary = React.createClass({
 	render: function() {
-		return (
+		old =  (
 			<div id={ "board_" + this.props.Id} className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
 				<button className="btn btn-default btn-sm editable-cancel removeboardbutton" onClick={this.deleteBoard.bind()} type="button">
 					<i className="glyphicon glyphicon-remove"></i>
 				</button>
 				<h3 className="boardTitle">{ this.props.Title }</h3>
 			</div>
+		);
+		return (
+			<div id={ "board_" + this.props.Id} className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
+				<div className="panel panel-default" >
+					<button className="btn btn-default btn-sm editable-cancel removeboardbutton" onClick={this.deleteBoard.bind()} type="button">
+						<i className="glyphicon glyphicon-remove"></i>
+					</button>
+					<div className="panel-body" >
+						<strong>{ this.props.Title }</strong>
+					</div>
+				</div>
+			</div>
+
 		);
 	},
 
@@ -194,8 +207,10 @@ var BoardList = React.createClass({
 	{
 		return (
 			<div className="container">
+				<div className="jumbotron">
 				<Boards data = { this.state.data } />
 				<NewBoardForm onNewBoardSubmit={ this.handleBoardSubmit } />
+				</div>
 			</div>
 		);
 	},

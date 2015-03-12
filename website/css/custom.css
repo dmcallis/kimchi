@@ -1,11 +1,11 @@
-div.list {
+div._list {
     width:300px;
     border:1px solid;
     padding:5px;
     margin:5px;
 }
 
-div.item {
+div._item {
     background-color:green;
     padding-top:1pt;
     padding-bottom:1pt;
@@ -24,8 +24,7 @@ form.newListForm {
 }
 
 div.boardSummary {
-    background-color:green;
-    margin:5px;
+
 }
 
 div.board {
