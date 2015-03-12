@@ -33,29 +33,28 @@ var NewItemForm = React.createClass({
 
 var Item = React.createClass({
     render: function() {
-        // var displayBox = $("#itemContent_Display_" + this.props.ListId + "_" + this.props.Id);
-        // var editBox = $("#itemContent_Edit_" + this.props.ListId + "_" + this.props.Id);
-        // var editCancelButton = $("#itemContent_Edit_Cancel_" + this.props.ListId + "_" + this.props.Id);
-        //
-        // editBox.hide();
-        //
-        // displayBox.click(function() {
-        //     displayBox.hide("slow");
-        //     editBox.show("slow");
-        // });
-        //
-        // editCancelButton.click(function () {
-        //     editBox.hide("slow");
-        //     displayBox.show("slow");
-        // });
+        var uniqueId = this.props.BoardId + "_" + this.props.ListId + "_" + this.props.Id;
+        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
+        $("#itemContent_edit_" + uniqueId).editable({
+            ajaxOptions: {
+                type: "put"
+            },
+            mode: "popup",
+            placement: "right",
+            params: function(params) {
+                params.Content = params.value;
+                return params;
+            }
+        });
 
-        var divId = "item_" + this.props.ListId + "_" + this.props.Id; // TODO: Unique id?
         return (
-          <div id = {divId} className="item">
-            <div id={ "itemContent_" + this.props.ListId + "_" + this.props.Id }>
-                <div id={ "itemContent_Display_" + this.props.ListId + "_" + this.props.Id }>
-                    <h3 className="itemContent">{ this.props.Content }</h3>
-                </div>
+          <div id = { "item_" + uniqueId } className="item">
+            <div id={ "itemContent_" + uniqueId }>
+            <h4 className="itemContent">
+                <a href="#" id={ "itemContent_edit_" + uniqueId } data-type="textarea" data-pk={ this.props.Id } data-url={ itemUpdateApiUrl } data-title="Enter new text">
+                    { this.props.Content }
+                </a>
+            </h4>
             </div>
             <h5 className="itemOwner">Owner { this.props.Owner }</h5>
             <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
@@ -67,9 +66,11 @@ var Item = React.createClass({
 
 var Items = React.createClass({
   render: function() {
+    var boardId = this.props.BoardId;
+
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item key={ item.Id } Id={ item.Id } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
+        <Item key={ item.Id } Id={ item.Id } BoardId={ boardId } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
       );
     });
 
