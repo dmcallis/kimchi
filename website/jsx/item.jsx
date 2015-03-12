@@ -32,10 +32,9 @@ var NewItemForm = React.createClass({
 });
 
 var Item = React.createClass({
-    render: function() {
-        var uniqueId = this.props.BoardId + "_" + this.props.ListId + "_" + this.props.Id;
-        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
-        $("#itemContent_edit_" + uniqueId).editable({
+    render: function() {        
+        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
+        $("#itemContent_edit_" + this.getUniqueId()).editable({
             ajaxOptions: {
                 type: "put"
             },
@@ -52,11 +51,16 @@ var Item = React.createClass({
             }
         });
 
-        return (
-          <div id = { "item_" + uniqueId } className="item">
-            <div id={ "itemContent_" + uniqueId }>
+        var divId = this.getDivId();
+		
+        return (			
+          <div id = { divId } className="item">
+			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
+				<i className="glyphicon glyphicon-remove"></i>
+			</button>
+            <div id={ "itemContent_" + this.getUniqueId() }>
             <h4 className="itemContent">
-                <a href="#" id={ "itemContent_edit_" + uniqueId } data-type="textarea" data-pk={ this.props.Id } data-url={ itemUpdateApiUrl } data-title="Enter new text">
+                <a href="#" id={ "itemContent_edit_" + this.getUniqueId() } data-type="textarea" data-pk={ this.props.Id } data-url={ itemUpdateApiUrl } data-title="Enter new text">
                     { this.props.Content }
                 </a>
             </h4>
@@ -66,7 +70,29 @@ var Item = React.createClass({
             <h5 className="itemCreatedDate">Modified { this.props.ModifiedDate }</h5>
           </div>
         );
-    }
+    },
+	
+	getUniqueId: function() {
+		return this.props.BoardId + "_" + this.props.ListId + "_" + this.props.Id;
+	},
+	
+	getDivId: function(){
+		return "item_" + this.getUniqueId();
+	},
+	
+	deleteItem: function ()
+	{
+		var itemDeleteApiUrl = "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
+		var divId = this.getDivId();
+		$.ajax({
+			url: itemDeleteApiUrl,
+			type: "DELETE",
+			success: function(result){
+				$itemElement = document.getElementById(divId);
+				$itemElement.parentNode.removeChild($itemElement);
+			}
+		});		
+	}
 });
 
 var Items = React.createClass({

@@ -1,4 +1,16 @@
+var CurrentUser = null;
 
+function getUserIdQueryParam()
+{
+	if (CurrentUser)
+	{
+		return "?userid=" + CurrentUser.id;
+	}
+	else
+	{
+		return "";
+	}
+}
 
 var FbLogin = React.createClass({
   getInitialState: function() {
