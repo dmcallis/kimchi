@@ -1,3 +1,5 @@
+var boardInterval = null;
+
 var Board = React.createClass({
 	getInitialState: function() {
         return { data: [] };
@@ -8,8 +10,7 @@ var Board = React.createClass({
     },
 
     loadListsFromServer: function() {
-		// TODO: Call API with boardId
-		var apiUrl = "sampleJson/list.json";
+		var apiUrl = "boards/" + this.props.Id + "/lists"
 
 		$.ajax({
 		    url: apiUrl,
@@ -58,6 +59,11 @@ var BoardSummary = React.createClass({
 
 	viewBoard: function (board,event)
 	{
+		if (boardInterval != null) 
+ 		{ 
+ 			clearInterval(boardInterval); 
+ 		} 
+
 		React.render(
 			<Board Id={ this.props.Id } Title={ this.props.Title } />,
 			document.getElementById('content')
@@ -69,7 +75,7 @@ var Boards = React.createClass({
 	render: function() {
 		var boardNodes = this.props.data.map(function (board) {
 			return (
-				<BoardSummary Title={ board.Title } />
+				<BoardSummary key={ board.Id } Id={ board.Id } Title={ board.Title } />
 			);
 		});
 
@@ -109,6 +115,7 @@ var BoardList = React.createClass({
 
 	componentDidMount: function() {
 		this.loadBoards();
+		//boardInterval = setInterval(this.loadBoards, this.props.pollInterval);
 	},
 
 	render: function ()

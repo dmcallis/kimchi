@@ -32,10 +32,10 @@ var NewItemForm = React.createClass({
 });
 
 var Item = React.createClass({
-
   render: function() {
+    var divId = this.props.ListId + "_" + this.props.Id; // TODO: Unique id?
     return (
-      <div id = {this.props.Id} className="item">
+      <div id = {divId} className="item">
           <h3 className="itemContent">{ this.props.Content }</h3>
           <h5 className="itemOwner">Owner { this.props.Owner }</h5>
           <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
@@ -49,7 +49,7 @@ var Items = React.createClass({
   render: function() {
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item Id = { item.Id } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
+        <Item key={ item.Id } Id={ item.Id } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
       );
     });
 
