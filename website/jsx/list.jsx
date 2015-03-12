@@ -66,36 +66,33 @@ var List = React.createClass({
   },
 
   render: function() {
-    var displayBox = $("#listTitle_Display_" + this.props.Id);
-    var editBox = $("#listTitle_Edit_" + this.props.Id);
-    var editCancelButton = $("#listTitle_Edit_Cancel_" + this.props.Id);
-
-    displayBox.show();
-    editBox.hide();
-
-    displayBox.click(function() {
-        displayBox.hide("");
-        editBox.show("slow");
-    });
-
-    editCancelButton.click(function () {
-        editBox.hide("");
-        displayBox.show("slow");
+    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id;
+    $("#listTitle_edit_" + this.props.Id).editable({
+        ajaxOptions: {
+            type: "put"
+        },
+        placement: "right",
+        validate: function(value) {
+            if($.trim(value) == '') {
+                return 'This field is required';
+            }
+        },        
+        params: function(params) {
+            params.Title = params.value;
+            return params;
+        }
     });
 
     return (
       <div className="list col-sm-4">
         <div className="listTitle" id={ "listTitle_" + this.props.Id }>
-            <div id={ "listTitle_Display_" + this.props.Id }>
-                <h1>{ this.props.Title }</h1>
-            </div>
-            <div id={ "listTitle_Edit_" + this.props.Id }>
-                <input type="text" value={ this.props.Title }></input>
-                <input type="button" id={ "listTitle_Edit_Cancel_" + this.props.Id } value="X" />
-                <input type="submit" value="Save" />
-            </div>
+            <h3>
+                <a href="#" id={ "listTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ listUpdateApiUrl } data-title="Enter new name for the list">
+                    { this.props.Title }
+                </a>
+            </h3>
         </div>
-		<Items data = { this.state.data } />
+		<Items data={ this.state.data } BoardId={ this.props.BoardId } />
         <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
       </div>
     );

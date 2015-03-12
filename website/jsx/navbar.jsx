@@ -30,7 +30,7 @@ var KiFooter = React.createClass({
   },
 
   componentDidMount: function() {
-	   document.addEventListener('set-status-message', this.onSetStatusMessage);
+	$(document).on("set-status-message", this.onSetStatusMessage);
   },
 
   render: function() {
@@ -45,20 +45,15 @@ var KiFooter = React.createClass({
   },
 
   onSetStatusMessage: function(e) {
-  	this.setState ({statusMessage : e.detail.message});
+  	this.setState ({statusMessage : e.message});
   }
 });
 
 function SetStatusMessage (messageText)
 {
-	var event = new CustomEvent(
-		"set-status-message",
-		{
-			detail: {
-				message: messageText				
-			}
-		});
-	document.dispatchEvent(event)
+	var event = $.Event('set-status-message');
+	event.message = messageText;
+	$.event.trigger(event);
 }
 
 React.render(<KiNavbar />, document.getElementById('navbar')); 

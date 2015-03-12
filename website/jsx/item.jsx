@@ -32,44 +32,76 @@ var NewItemForm = React.createClass({
 });
 
 var Item = React.createClass({
-    render: function() {
-        // var displayBox = $("#itemContent_Display_" + this.props.ListId + "_" + this.props.Id);
-        // var editBox = $("#itemContent_Edit_" + this.props.ListId + "_" + this.props.Id);
-        // var editCancelButton = $("#itemContent_Edit_Cancel_" + this.props.ListId + "_" + this.props.Id);
-        //
-        // editBox.hide();
-        //
-        // displayBox.click(function() {
-        //     displayBox.hide("slow");
-        //     editBox.show("slow");
-        // });
-        //
-        // editCancelButton.click(function () {
-        //     editBox.hide("slow");
-        //     displayBox.show("slow");
-        // });
+    render: function() {        
+        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
+        $("#itemContent_edit_" + this.getUniqueId()).editable({
+            ajaxOptions: {
+                type: "put"
+            },
+            mode: "popup",
+            placement: "right",
+            validate: function(value) {
+			    if($.trim(value) == '') {
+			        return 'This field is required';
+			    }
+			},            
+            params: function(params) {
+                params.Content = params.value;
+                return params;
+            }
+        });
 
-        var divId = "item_" + this.props.ListId + "_" + this.props.Id; // TODO: Unique id?
-        return (
-          <div id = {divId} className="item">
-            <div id={ "itemContent_" + this.props.ListId + "_" + this.props.Id }>
-                <div id={ "itemContent_Display_" + this.props.ListId + "_" + this.props.Id }>
-                    <h3 className="itemContent">{ this.props.Content }</h3>
-                </div>
+        var divId = this.getDivId();
+		
+        return (			
+          <div id = { divId } className="item">
+			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
+				<i className="glyphicon glyphicon-remove"></i>
+			</button>
+            <div id={ "itemContent_" + this.getUniqueId() }>
+            <h4 className="itemContent">
+                <a href="#" id={ "itemContent_edit_" + this.getUniqueId() } data-type="textarea" data-pk={ this.props.Id } data-url={ itemUpdateApiUrl } data-title="Enter new text">
+                    { this.props.Content }
+                </a>
+            </h4>
             </div>
             <h5 className="itemOwner">Owner { this.props.Owner }</h5>
             <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
             <h5 className="itemCreatedDate">Modified { this.props.ModifiedDate }</h5>
           </div>
         );
-    }
+    },
+	
+	getUniqueId: function() {
+		return this.props.BoardId + "_" + this.props.ListId + "_" + this.props.Id;
+	},
+	
+	getDivId: function(){
+		return "item_" + this.getUniqueId();
+	},
+	
+	deleteItem: function ()
+	{
+		var itemDeleteApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
+		var divId = this.getDivId();
+		$.ajax({
+			url: itemDeleteApiUrl,
+			type: "DELETE",
+			success: function(result){
+				$itemElement = document.getElementById(divId);
+				$itemElement.parentNode.removeChild($itemElement);
+			}
+		});		
+	}
 });
 
 var Items = React.createClass({
   render: function() {
+    var boardId = this.props.BoardId;
+
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item key={ item.Id } Id={ item.Id } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
+        <Item key={ item.Id } Id={ item.Id } BoardId={ boardId } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
       );
     });
 

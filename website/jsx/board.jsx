@@ -67,11 +67,32 @@ var Board = React.createClass({
     },
 
 	render: function() {
+		var boardUpdateApiUrl = "/boards/" + this.props.Id;
+	    $("#boardTitle_edit_" + this.props.Id).editable({
+			mode: "inline",
+	        ajaxOptions: {
+	            type: "put"
+	        },
+			validate: function(value) {
+			    if($.trim(value) == '') {
+			        return 'This field is required';
+			    }
+			},
+	        params: function(params) {
+	            params.Title = params.value;
+	            return params;
+	        }
+	    });
+
 		return (
 			<div className="board">
-				<div>
-					<h1><strong>{ this.props.Title }</strong></h1>
-				</div>
+				<div className="boardTitle" id={ "boardTitle_" + this.props.Id }>
+		            <h3>
+		                <a href="#" id={ "boardTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ boardUpdateApiUrl } data-title="Enter new name for the board">
+							<h1><strong>{ this.props.Title }</strong></h1>
+		                </a>
+		            </h3>
+		        </div>
 				<div>
 					<Lists data={ this.state.data } />
 					<NewListForm onNewListSubmit={ this.handleListSubmit } />
@@ -92,10 +113,10 @@ var BoardSummary = React.createClass({
 
 	viewBoard: function (board,event)
 	{
-		if (boardInterval != null) 
- 		{ 
- 			clearInterval(boardInterval); 
- 		} 
+		if (boardInterval != null)
+ 		{
+ 			clearInterval(boardInterval);
+ 		}
 
 		React.render(
 			<Board Id={ this.props.Id } Title={ this.props.Title } />,
@@ -117,7 +138,7 @@ var Boards = React.createClass({
 				{ boardNodes }
 			</div>
 		);
-	},	
+	},
 });
 
 var BoardList = React.createClass({
@@ -160,12 +181,12 @@ var BoardList = React.createClass({
 			</div>
 		);
 	},
-	
+
 	handleBoardSubmit: function(board) {
       var boards = this.state.data;
       BoardsData = boards.concat([board]);
       this.setState({data: BoardsData});
-	  
+
 	  var event = $.Event('newBoardEvent');
 	  event.message = BoardsData;
 
