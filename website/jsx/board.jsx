@@ -25,9 +25,9 @@ var NewBoardForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newBoardForm" onSubmit={ this.handleSubmit }>
-                <input type="text" className="newBoardFormTitle" placeholder="Add a board..." ref="title" />
-                <input type="submit" value="Add" />
+            <form className="newBoardForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <input type="text" className="form-control" placeholder="Add a board..." ref="title" />
+                <input type="submit" className="btn btn-primary" value="Add" />
             </form>
         );
   }
