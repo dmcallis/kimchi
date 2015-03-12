@@ -82,9 +82,16 @@ var Item = React.createClass({
 	
 	deleteItem: function ()
 	{
-		$itemElement = document.getElementById(this.getDivId());
-		$itemElement.parentNode.removeChild($itemElement);
-		//todo: sync with server
+		var itemDeleteApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
+		var divId = this.getDivId();
+		$.ajax({
+			url: itemDeleteApiUrl,
+			type: "DELETE",
+			success: function(result){
+				$itemElement = document.getElementById(divId);
+				$itemElement.parentNode.removeChild($itemElement);
+			}
+		});		
 	}
 });
 
