@@ -33,7 +33,7 @@ var NewItemForm = React.createClass({
 
 var Item = React.createClass({
     render: function() {
-        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
+        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
         $("#itemContent_edit_" + this.getUniqueId()).editable({
             ajaxOptions: {
                 type: "put"
@@ -82,9 +82,16 @@ var Item = React.createClass({
 
 	deleteItem: function ()
 	{
-		$itemElement = document.getElementById(this.getDivId());
-		$itemElement.parentNode.removeChild($itemElement);
-		//todo: sync with server
+		var itemDeleteApiUrl = "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
+		var divId = this.getDivId();
+		$.ajax({
+			url: itemDeleteApiUrl,
+			type: "DELETE",
+			success: function(result){
+				$itemElement = document.getElementById(divId);
+				$itemElement.parentNode.removeChild($itemElement);
+			}
+		});
 	}
 });
 

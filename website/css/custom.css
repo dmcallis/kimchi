@@ -5,6 +5,10 @@ div.list {
     margin:5px;
 }
 
+div.sortable {
+	min-height:20px;
+}
+
 div.item {
     background-color:green;
     padding-top:1pt;
@@ -34,4 +38,35 @@ div.board {
 
 button.removebutton {
 	float: right;
+}
+
+button.removeboardbutton {
+	float: right;
+}
+
+button.removelistbutton {
+	float: right;
+}
+
+div.item .removebutton {
+    display: none;
+}
+div.item:hover .removebutton {
+    display: inline;
+}
+
+div.list .removelistbutton {
+	display: none;
+}
+
+div.list:hover .removelistbutton{
+	display: inline;
+}
+
+div.boardSummary .removeboardbutton {
+	display: none;
+}
+
+div.boardSummary:hover .removeboardbutton{
+	display: inline;
 }
