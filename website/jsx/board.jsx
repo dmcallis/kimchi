@@ -105,7 +105,7 @@ var Board = React.createClass({
 var BoardSummary = React.createClass({
 	render: function() {
 		return (
-			<div className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
+			<div id={ "board_" + this.props.Id} className="boardSummary col-sm-4" onClick={this.viewBoard.bind(this, this.props)}>
 				<button className="btn btn-default btn-sm editable-cancel removeboardbutton" onClick={this.deleteBoard.bind()} type="button">
 					<i className="glyphicon glyphicon-remove"></i>
 				</button>
@@ -115,7 +115,17 @@ var BoardSummary = React.createClass({
 	},
 
 	deleteBoard: function() {
-		alert('delete board clicked');
+		var boardDeleteApiUrl = "/boards/" + this.props.Id;
+		var divId = "board_" + this.props.Id;
+		$.ajax({
+			url: boardDeleteApiUrl,
+			type: "DELETE",
+			success: function(result){
+				$itemElement = document.getElementById(divId);
+				$itemElement.parentNode.removeChild($itemElement);
+			}
+		});	
+		
 		return false;
 	},
 	
