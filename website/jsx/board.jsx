@@ -1,5 +1,38 @@
 var boardInterval = null;
 
+var NewBoardForm = React.createClass({
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var owner = "N/A"; // TODO: Value from current session
+        var title = this.refs.title.getDOMNode().value.trim();
+        if (!owner || !title) {
+            return;
+        }
+
+        // TODO: return all properties, sync with .../sampleJson/board.json
+        this.props.onNewBoardSubmit(
+            {
+                Owner: owner,
+                Title: title,
+                CreatedDate: new Date().toLocaleTimeString(),
+                ModifiedDate: new Date().toLocaleTimeString()
+            }
+        );
+
+        this.refs.title.getDOMNode().value = "";
+        return;
+    },
+
+    render: function() {
+        return (
+            <form className="newBoardForm" onSubmit={ this.handleSubmit }>
+                <input type="text" class="newBoardFormTitle" placeholder="Add a board..." ref="title" />
+                <input type="submit" value="Add" />
+            </form>
+        );
+  }
+});
+
 var Board = React.createClass({
 	getInitialState: function() {
         return { data: [] };
@@ -84,7 +117,7 @@ var Boards = React.createClass({
 				{ boardNodes }
 			</div>
 		);
-	}
+	},	
 });
 
 var BoardList = React.createClass({
@@ -123,8 +156,18 @@ var BoardList = React.createClass({
 		return (
 			<div className="container">
 				<Boards data = { this.state.data } />
+				<NewBoardForm onNewBoardSubmit={ this.handleBoardSubmit } />
 			</div>
 		);
+	},
+	
+	handleBoardSubmit: function(board) {
+      var boards = this.state.data;
+      var newBoards = boards.concat([board]);
+      this.setState({data: newBoards});
+
+      // TODO: Send data to server
+      $("#alertNewDataForm").show("slow");
 	}
 });
 

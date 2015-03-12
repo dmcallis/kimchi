@@ -6,6 +6,14 @@ function viewBoard(board)
 	);
 }
 
+function viewAllBoards()
+{
+	React.render(
+		<BoardList url="boards" pollInterval={2000} />,
+		document.getElementById('content')
+	);
+}
+
 var BoardDropdown = React.createClass({
 
 	getInitialState: function() {
@@ -20,6 +28,8 @@ var BoardDropdown = React.createClass({
 				<li className="dropdown">
 					<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Boards <span className="caret"></span></a>
 					<ul className="dropdown-menu" role="menu">
+						<li><a href="#" onClick={viewAllBoards.bind(this)}>All boards</a></li>
+						<li className="divider"></li>
 						{boards.map(function(board) {
 							return <li><a href="#" onClick={viewBoard.bind(this, board)}>{board.Title}</a></li>;
 						})}
