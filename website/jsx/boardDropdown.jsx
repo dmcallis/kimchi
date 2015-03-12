@@ -32,9 +32,7 @@ var BoardDropdown = React.createClass({
 						<li className="divider"></li>
 						{boards.map(function(board) {
 							return <li><a href="#" onClick={viewBoard.bind(this, board)}>{board.Title}</a></li>;
-						})}
-						<li className="divider"></li>
-						<li><a href="#">Add a Board</a></li>
+						})}						
 					</ul>
 				</li>
 			</ul>
