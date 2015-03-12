@@ -23,9 +23,11 @@ var NewItemForm = React.createClass({
 
     render: function() {
         return (
-            <form className="newItemForm" onSubmit={ this.handleSubmit }>
-                <input type="text" className="newItemFormContent" placeholder="Type something..." ref="content" />
-                <input type="submit" value="Add" />
+            <form className="newListForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+                <div className="form-group">
+                    <input type="text" className="form-control" placeholder="Type something..." ref="content" />
+                </div>
+                <input type="submit" className="btn btn-default" value="Add" />
             </form>
         );
   }
