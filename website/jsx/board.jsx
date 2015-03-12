@@ -9,15 +9,27 @@ var NewBoardForm = React.createClass({
             return;
         }
 
-        // TODO: return all properties, sync with .../sampleJson/board.json
-        this.props.onNewBoardSubmit(
-            {
-                Owner: owner,
-                Title: title,
-                CreatedDate: new Date().toLocaleTimeString(),
-                ModifiedDate: new Date().toLocaleTimeString()
-            }
-        );
+		var onNewBoardSubmit = this.props.onNewBoardSubmit;
+		var newBoardApiUrl = "boards" + getUserIdQueryParam();
+
+		$.ajax({
+			type: "POST",
+		    url: newBoardApiUrl,
+		    dataType: "text",// "json", // TODO: extract id from json response
+			data: JSON.stringify({ Title: title }),
+		    success: function(data){
+				// TODO: return all properties, sync with .../sampleJson/board.json
+				onNewBoardSubmit({
+					Owner: owner,
+					Title: title,
+					CreatedDate: new Date().toLocaleTimeString(),
+					ModifiedDate: new Date().toLocaleTimeString()
+				});
+		    },
+		    error: function(xhr, status, err) {
+		        console.error(newBoardApiUrl, status, err.toString());
+		    }
+		});
 
         this.refs.title.getDOMNode().value = "";
         return;
