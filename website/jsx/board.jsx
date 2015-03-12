@@ -1,5 +1,3 @@
-var boardInterval = null;
-
 var Board = React.createClass({
 	getInitialState: function() {
         return { data: [] };
@@ -60,12 +58,6 @@ var BoardSummary = React.createClass({
 
 	viewBoard: function (board,event)
 	{
-		console.log('viewBoard clicked');
-		if (boardInterval != null)
-		{
-			clearInterval(boardInterval);
-		}
-
 		React.render(
 			<Board Id={ this.props.Id } Title={ this.props.Title } />,
 			document.getElementById('content')
@@ -94,22 +86,29 @@ var BoardList = React.createClass({
 		return { data: [] };
 	},
 
-	loadBoardsFromServer: function() {
-		$.ajax({
-			url: this.props.url,
-			dataType: 'json',
-			success: function(data){
-				this.setState({ data: data });
-			}.bind(this),
-			error: function(xhr, status, err) {
-				console.error(this.props.url, status, err.toString());
-			}.bind(this)
-		});
+	loadBoards: function() {
+		if (!BoardsData)
+		{
+			$.ajax({
+				url: this.props.url,
+				dataType: 'json',
+				success: function(data){
+					this.setState({ data: data });
+					BoardsData = data;
+				}.bind(this),
+				error: function(xhr, status, err) {
+					console.error(this.props.url, status, err.toString());
+				}.bind(this)
+			});
+		}
+		else
+		{
+			this.setState({ data: BoardsData });
+		}
 	},
 
 	componentDidMount: function() {
-		this.loadBoardsFromServer();
-		boardInterval = setInterval(this.loadBoardsFromServer, this.props.pollInterval);
+		this.loadBoards();
 	},
 
 	render: function ()
