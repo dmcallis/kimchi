@@ -1,4 +1,9 @@
 var fs = require('fs');
+var express = require('express');
+var bodyParser = require('body-parser')
+var app = express();
+
+app.use(bodyParser.json());
 
 function containsKey(collection, key, value) {
     var index = -1;
@@ -49,8 +54,7 @@ exports.getBoard = function (request, response) {
 };
 
 exports.addBoard = function (request, response) {
-    var board = JSON.parse(request.body);
-    response.status(200).send("Board created\nData: " + JSON.stringify(board));
+    response.status(200).send("Board created\nData: " + JSON.stringify(request.body));
 };
 
 exports.updateBoard = function (request, response) {
@@ -92,8 +96,7 @@ exports.getList = function (request, response) {
 };
 
 exports.addList = function (request, response) {
-    var list = JSON.parse(request.body);
-    response.status(200).send("List created\nData: " + JSON.stringify(list));
+    response.status(200).send("List created\nData: " + JSON.stringify(request.body));
 };
 
 exports.updateList = function (request, response) {
@@ -135,8 +138,7 @@ exports.getItem = function (request, response) {
 };
 
 exports.addItem = function (request, response) {
-    var item = JSON.parse(request.body);
-    response.status(200).send("Item created\nData: " + JSON.stringify(item));
+    response.status(200).send("Item created\nData: " + JSON.stringify(request.body));
 };
 
 exports.updateItem = function (request, response) {
