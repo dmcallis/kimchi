@@ -24,7 +24,7 @@ var NewItemForm = React.createClass({
     render: function() {
         return (
             <form className="newItemForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newItemFormContent" placeholder="Type something..." ref="content" />
+                <input type="text" className="newItemFormContent" placeholder="Type something..." ref="content" />
                 <input type="submit" value="Add" />
             </form>
         );
@@ -32,7 +32,7 @@ var NewItemForm = React.createClass({
 });
 
 var Item = React.createClass({
-    render: function() {        
+    render: function() {
         var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id;
         $("#itemContent_edit_" + this.getUniqueId()).editable({
             ajaxOptions: {
@@ -44,7 +44,7 @@ var Item = React.createClass({
 			    if($.trim(value) == '') {
 			        return 'This field is required';
 			    }
-			},            
+			},
             params: function(params) {
                 params.Content = params.value;
                 return params;
@@ -52,8 +52,8 @@ var Item = React.createClass({
         });
 
         var divId = this.getDivId();
-		
-        return (			
+
+        return (
           <div id = { divId } className="item">
 			<button className="btn btn-default btn-sm editable-cancel removebutton" onClick={this.deleteItem.bind()} type="button">
 				<i className="glyphicon glyphicon-remove"></i>
@@ -71,15 +71,15 @@ var Item = React.createClass({
           </div>
         );
     },
-	
+
 	getUniqueId: function() {
 		return this.props.BoardId + "_" + this.props.ListId + "_" + this.props.Id;
 	},
-	
+
 	getDivId: function(){
 		return "item_" + this.getUniqueId();
 	},
-	
+
 	deleteItem: function ()
 	{
 		$itemElement = document.getElementById(this.getDivId());

@@ -26,7 +26,7 @@ var NewBoardForm = React.createClass({
     render: function() {
         return (
             <form className="newBoardForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newBoardFormTitle" placeholder="Add a board..." ref="title" />
+                <input type="text" className="newBoardFormTitle" placeholder="Add a board..." ref="title" />
                 <input type="submit" value="Add" />
             </form>
         );
@@ -95,7 +95,7 @@ var Board = React.createClass({
 		        </div>
 				<div>
 					<Lists data={ this.state.data } />
-					<NewListForm onNewListSubmit={ this.handleListSubmit } />
+					<NewListForm BoardId={ this.props.Id } onNewListSubmit={ this.handleListSubmit } />
 				</div>
 			</div>
 		);

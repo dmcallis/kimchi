@@ -1,32 +1,56 @@
 var NewListForm = React.createClass({
-    handleSubmit: function(e) {
-        e.preventDefault();
-        var owner = "N/A"; // TODO: Value from current session
-        var title = this.refs.title.getDOMNode().value.trim();
-        if (!owner || !title) {
-            return;
-        }
-
-        // TODO: return all properties, sync with .../sampleJson/list.json
-        this.props.onNewListSubmit(
-            {
-                Owner: owner,
-                Title: title,
-                CreatedDate: new Date().toLocaleTimeString(),
-                ModifiedDate: new Date().toLocaleTimeString()
-            }
-        );
-
-        this.refs.title.getDOMNode().value = "";
-        return;
-    },
-
     render: function() {
+        var boardId = this.props.BoardId;
+        var newListApiUrl = "boards/" + boardId + "/lists"; // TODO: FBID
+        var onNewListSubmit = this.props.onNewListSubmit;
+
+        $("#newListTitle_" + boardId).editable({
+            mode: "inline",
+            validate: function(v) {
+                if(!v) return 'Required field!';
+            }
+        });
+
+        $("#newListSaveBtn_" + boardId).click(function() {
+            $("#newListTitle_" + boardId).editable('submit', {
+                url: newListApiUrl,
+                success: function(data, config) {
+                    // TODO: Check id returned from the API
+
+                    $(this).removeClass("editable-unsaved");
+
+                    var owner = "N/A"; // TODO: Value from current session
+                    var title = $("#newListTitle_" + boardId).text();
+                    if (!owner || !title) {
+                        return;
+                    }
+
+                    // TODO: return all properties, sync with .../sampleJson/list.json
+                    onNewListSubmit(
+                    {
+                        // TODO: Id, key
+                        Owner: owner,
+                        Title: title,
+                        CreatedDate: new Date().toLocaleTimeString(),
+                        ModifiedDate: new Date().toLocaleTimeString()
+                    });
+
+                    var title = $("#newListTitle_" + boardId).text("Enter new list name");
+                },
+                error: function(errors) {
+                    // TODO: Display error status
+                    console.log(errors);
+                }
+            });
+        });
+
         return (
-            <form className="newListForm" onSubmit={ this.handleSubmit }>
-                <input type="text" class="newListFormTitle" placeholder="Add a list..." ref="title" />
-                <input type="submit" value="Add" />
-            </form>
+            <div className="newListForm">
+                <a href="#" id={ "newListTitle_" + boardId } className="editable editable-click editable-empty" data-type="text" data-name="Title" ref="title" data-original-title="Enter new name for list">Enter new list name</a>
+                <div>
+                    <button id={ "newListSaveBtn_" + boardId } className="btn btn-primary">Add new list</button>
+                </div>
+            </div>
         );
   }
 });
@@ -40,14 +64,14 @@ var List = React.createClass({
     var apiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.Id + "/items";
 
     $.ajax({
-      url: apiUrl,
-      dataType: 'json',
-      success: function(data){
-        this.setState({ data: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(apiUrl, status, err.toString());
-      }.bind(this)
+        url: apiUrl,
+        dataType: 'json',
+        success: function(data){
+            this.setState({ data: data });
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(apiUrl, status, err.toString());
+        }.bind(this)
     });
   },
 
@@ -76,7 +100,7 @@ var List = React.createClass({
             if($.trim(value) == '') {
                 return 'This field is required';
             }
-        },        
+        },
         params: function(params) {
             params.Title = params.value;
             return params;
