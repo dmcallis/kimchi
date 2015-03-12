@@ -72,6 +72,11 @@ var List = React.createClass({
             type: "put"
         },
         placement: "right",
+        validate: function(value) {
+            if($.trim(value) == '') {
+                return 'This field is required';
+            }
+        },        
         params: function(params) {
             params.Title = params.value;
             return params;

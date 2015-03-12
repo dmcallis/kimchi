@@ -41,6 +41,11 @@ var Item = React.createClass({
             },
             mode: "popup",
             placement: "right",
+            validate: function(value) {
+			    if($.trim(value) == '') {
+			        return 'This field is required';
+			    }
+			},            
             params: function(params) {
                 params.Content = params.value;
                 return params;
