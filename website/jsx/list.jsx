@@ -67,7 +67,16 @@ var List = React.createClass({
   
   deleteList: function()
   {
-	alert('delete list clicked');
+	var listDeleteApiUrl = "/lists/" + this.props.Id;
+	var divId = "list_" + this.props.Id;
+	$.ajax({
+		url: listDeleteApiUrl,
+		type: "DELETE",
+		success: function(result){
+			$itemElement = document.getElementById(divId);
+			$itemElement.parentNode.removeChild($itemElement);
+		}
+	});		
   },
 
   render: function() {
@@ -89,7 +98,7 @@ var List = React.createClass({
     });
 
     return (
-      <div className="list col-sm-4">
+      <div className="list col-sm-4" id= { "list_" + this.props.Id}>
         <div className="listTitle" id={ "listTitle_" + this.props.Id }>
 			<button className="btn btn-default btn-sm editable-cancel removelistbutton" onClick={this.deleteList.bind()} type="button">
 				<i className="glyphicon glyphicon-remove"></i>
