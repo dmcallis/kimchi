@@ -1,3 +1,28 @@
+function TestRequest()
+{
+var request = require('request');
+var async = require("async")
+var bodyGet
+request('http://junykimvm8211.redmond.corp.microsoft.com:8529/_db/KimchiDatabase/Apps/KimchiBoard/Items/Items', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        console.log(body); // Print the google web page.
+        bodyGet = body
+    }    
+})
+
+var response = request.get('http://junykimvm8211.redmond.corp.microsoft.com:8529/_db/KimchiDatabase/Apps/KimchiBoard/Boards/Boards');
+if (response.response.statusCode == 200)
+	{
+	
+	}
+//var bodyJSON = JSON.parse(response.body);
+//console.log(bodyJSON);
+}
+
+TestRequest()
+
+function TestRequest2()
+{
 var querystring = require('querystring');
 var https = require('https');
 
@@ -27,9 +52,6 @@ reqGet.on('error', function(e) {
     console.error(e);
 });
 
-var request = require('request');
-request('http://junykimvm8211.redmond.corp.microsoft.com:8529/_db/KimchiDatabase/Apps/KimchiBoard/Boards/Boards', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        console.log(body) // Print the google web page.
-     }
-})
+}
+
+

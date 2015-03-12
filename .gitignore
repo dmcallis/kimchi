@@ -2,6 +2,7 @@
 ###################
 server/node_modules
 .tmp
+.metadata
 npm-debug.log
 
 # Ignore Bower

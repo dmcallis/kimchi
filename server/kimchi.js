@@ -1,8 +1,15 @@
 var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser')
+var requestlib = require('request');
 var app = express();
 
+var KimchiBoardLocation = "http://junykimvm8211.redmond.corp.microsoft.com:8529/_db/KimchiDatabase/Apps/KimchiBoard";
+var KimchiDatabaseName = "KimchiDatabase";
+var KimchiBoardCollection = "/Boards/Boards";
+var KimchiListCollection = "/Lists/Lists";
+var KimchiItemCollection = "/Items/Items"
+	
 app.use(bodyParser.json());
 
 function containsKey(collection, key, value) {
@@ -38,8 +45,7 @@ catch (e) {
 /* Board REST API */
 
 exports.boards = function (request, response) {
-    response.set("Content-type", "application/json");
-    response.send(JSON.stringify(boards));
+	requestlib.get(KimchiBoardLocation + KimchiBoardCollection).pipe(response);
 };
  
 exports.getBoard = function (request, response) {
@@ -80,8 +86,7 @@ exports.deleteBoard = function (request, response) {
 /* List REST API */
 
 exports.lists = function (request, response) {
-    response.set("Content-type", "application/json");
-    response.send(JSON.stringify(lists));
+	requestlib.get(KimchiBoardLocation + KimchiListCollection).pipe(response);
 };
 
 exports.getList = function (request, response) {
@@ -122,8 +127,7 @@ exports.deleteList = function (request, response) {
 /* Item REST API */
 
 exports.items = function (request, response) {
-    response.set("Content-type", "application/json");
-    response.send(JSON.stringify(items));
+	requestlib.get(KimchiBoardLocation + KimchiItemCollection).pipe(response);
 };
 
 exports.getItem = function (request, response) {
