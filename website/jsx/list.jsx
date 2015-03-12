@@ -87,7 +87,7 @@ var List = React.createClass({
         ajaxOptions: {
             type: "put"
         },
-        placement: "right",
+        placement: "bottom",
         validate: function(value) {
             if($.trim(value) == '') {
                 return 'This field is required';
