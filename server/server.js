@@ -19,11 +19,11 @@ app.get('/lists/:listid', kimchi.getList);
 app.put('/lists/:listid', kimchi.updateList);
 app.delete('/lists/:listid', kimchi.deleteList);
 
-app.get('/items', kimchi.lists);
-app.post('/items', kimchi.addList);
-app.get('/items/:itemid', kimchi.getList);
-app.put('/items/:itemid', kimchi.updateList);
-app.delete('/items/:itemid', kimchi.deleteList);
+app.get('/items', kimchi.items);
+app.post('/items', kimchi.addItem);
+app.get('/items/:itemid', kimchi.getItem);
+app.put('/items/:itemid', kimchi.updateItem);
+app.delete('/items/:itemid', kimchi.deleteItem);
 
 app.get('/boards/:id/lists', kimchi.lists);
 app.post('/boards/:id/lists', kimchi.addList);
