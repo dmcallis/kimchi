@@ -114,7 +114,10 @@ var Items = React.createClass({
 
   componentDidMount: function() {
 	$( ".sortable" ).sortable({
-		connectWith: ".connectedSortable"
+		connectWith: ".connectedSortable",
+		update: function( event, ui ) {
+			alert('position updated' + ui.position);
+		}
 	}).disableSelection();
   }
 });
