@@ -66,11 +66,12 @@ var List = React.createClass({
   },
 
   render: function() {
-    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id; // TODO: Update this
-    $("#listTitle_edit" + this.props.Id).editable({
+    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id;
+    $("#listTitle_edit_" + this.props.Id).editable({
         ajaxOptions: {
-            type: 'put'
+            type: "put"
         },
+        placement: "right",
         params: function(params) {
             params.Title = params.value;
             return params;
@@ -81,7 +82,7 @@ var List = React.createClass({
       <div className="list col-sm-4">
         <div className="listTitle" id={ "listTitle_" + this.props.Id }>
             <h3>
-                <a href="#" id={ "listTitle_edit" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ listUpdateApiUrl } data-title="Enter new name for the list">
+                <a href="#" id={ "listTitle_edit_" + this.props.Id } data-type="text" data-pk={ this.props.Id } data-url={ listUpdateApiUrl } data-title="Enter new name for the list">
                     { this.props.Title }
                 </a>
             </h3>
