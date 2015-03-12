@@ -35,3 +35,10 @@ div.board {
 button.removebutton {
 	float: right;
 }
+
+div.item .removebutton {
+    display: none;
+}
+div.item:hover .removebutton {
+    display: inline;
+}
