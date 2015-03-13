@@ -23,12 +23,12 @@ var FbLogin = React.createClass({
       userDisplay = (<div><span className="glyphicon glyphicon-user" aria-hidden="true"></span> Sign-in</div>);
     }
     else {
-      userDisplay = (<div><img src={this.state.picture} width="24px" height="24px"> </img> {this.state.name}</div>);      
+      userDisplay = (<div><img src={this.state.picture} width="30px" height="30px"> </img> {this.state.name}</div>);      
     };
 
-
+    var btnStyle = {marginRight: "20", paddingTop: "5", paddingBottom: "5", paddingLeft: "10", paddingRight: "10"};
     return (
-        <button type="button" onClick={this.handleClick} className="btn btn-default navbar-btn navbar-right" aria-label="Sign-in">
+        <button type="button" onClick={this.handleClick} className="btn btn-default navbar-btn" aria-label="Sign-in" style={btnStyle}>
         {userDisplay}
         </button>
     );
