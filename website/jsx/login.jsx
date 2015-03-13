@@ -54,9 +54,27 @@ var FbLogin = React.createClass({
       //    your app or not.
       //
       // These three cases are handled in the callback function.
-      FB.getLoginStatus(function(response) {
-        this.statusChangeCallback(response);
+      FB.Event.subscribe('auth.statusChange', function(response) {
+          // {
+          //   status: "",         /* Current status of the session */
+          //   authResponse: {          /* Information about the current session */
+          //      userID: ""          /* String representing the current user's ID */
+          //      signedRequest: "",  /* String with the current signedRequest */
+          //      expiresIn: "",      /* UNIX time when the session expires */
+          //      accessToken: "",    /* Access token of the user */
+          //   }
+          // }
+          
+          // alert('event status: ' + response.status);
+          console.log(response);
+          this.statusChangeCallback(response);
       }.bind(this));
+
+
+      //FB.getLoginStatus(function(response) {
+      //  this.statusChangeCallback(response);
+      //}.bind(this));
+
     }.bind(this);
 
     // Load the SDK asynchronously
@@ -104,27 +122,35 @@ var FbLogin = React.createClass({
       this.fetchCurrentUser();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      CurrentUser = null;
+      this.updateUserStatus (null);
       SetStatusMessage ('Please sign into this app.');
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      CurrentUser = null;
+      this.updateUserStatus (null);
       SetStatusMessage ('Please sign into Facebook.');
     }
+
   },
 
   // This function is called when someone finishes with the Login
   // Button.  See the onlogin handler attached to it in the sample
   // code below.
-  checkLoginState: function() {
+  checkLoginState: function(response) {
     FB.getLoginStatus(function(response) {
       this.statusChangeCallback(response);
     }.bind(this));
   },
 
   handleClick: function() {
-    FB.login(this.checkLoginState());
+    if (null == CurrentUser)
+      FB.login(function (response) {
+        // body...
+      });
+    else
+      FB.logout(function (response) {
+        // body...
+      });
   }
 
 

@@ -1,10 +1,8 @@
-var React;
-var logoStyle = {height: "24px", marginTop: "-4px"};
-
-	        // <FbLogin />
 
 var KiNavbar = React.createClass({
   render: function() {
+    var logoStyle = {height: "24px", marginTop: "-4px"};
+    
     return (
           <div className="container">
             <nav className="navbar navbar-default navbar-fixed-top">
@@ -29,7 +27,6 @@ var KiNavbar = React.createClass({
   }
 });
 
-var footerStyle = {minHeight: "40px"};
 var KiFooter = React.createClass({
   getInitialState: function() {
     return {statusMessage: ""};
@@ -40,6 +37,8 @@ var KiFooter = React.createClass({
   },
 
   render: function() {
+    var footerStyle = {minHeight: "40px"};
+
     return (
 	  <nav className="navbar navbar-default navbar-fixed-bottom">
 
@@ -62,7 +61,6 @@ function SetStatusMessage (messageText)
 	$.event.trigger(event);
 }
 
-React.render(<KiNavbar />, document.getElementById('navbar')); 
-React.render(<KiFooter />, document.getElementById('footer'));     
+    
 
 
