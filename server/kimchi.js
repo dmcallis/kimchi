@@ -351,7 +351,7 @@ exports.items = function (request, response) {
             response.send(JSON.stringify(itemData));
         }
         else {
-            var filteredData = listData.filter(function (item) {
+            var filteredData = itemData.filter(function (item) {
                 if (item.ListId == request.params.listid) {
                     return true
                 } else {
