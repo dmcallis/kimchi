@@ -19,7 +19,7 @@ var NewListForm = React.createClass({
 			data: JSON.stringify(
             {
                 Title: title,
-                BoardId: boardId 
+                BoardId: boardId
             }),
 		    success: function(data){
                 console.log(data);
@@ -139,7 +139,7 @@ var List = React.createClass({
             </h3>
         </div>
 		<Items data={ this.state.data } BoardId={ this.props.BoardId } />
-        <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
+        <NewItemForm onNewItemSubmit={ this.handleItemSubmit } BoardId={ this.props.BoardId } ListId={ this.props.Id } />
       </div>
     );
 
@@ -156,7 +156,7 @@ var List = React.createClass({
         </div>
         <div className="panel-body">
           <Items data={ this.state.data } BoardId={ this.props.BoardId } ListId={ this.props.Id }/>
-          <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
+          <NewItemForm onNewItemSubmit={ this.handleItemSubmit } BoardId={ this.props.BoardId } ListId={ this.props.Id } />
         </div>
       </div>
       </div>

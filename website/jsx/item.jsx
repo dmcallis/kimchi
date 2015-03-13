@@ -8,14 +8,19 @@ var NewItemForm = React.createClass({
         }
 
         var onNewItemSubmit = this.props.onNewItemSubmit;
-		var newItemApiUrl = "boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items" + getUserIdQueryParam();
+        var listId = this.props.ListId;
+		var newItemApiUrl = "boards/" + this.props.BoardId + "/lists/" + listId + "/items" + getUserIdQueryParam();
 
         $.ajax({
 			type: "POST",
 		    url: newItemApiUrl,
 		    dataType: "json",
 			contentType:"application/json; charset=utf-8",
-			data: JSON.stringify({ Content: content }),
+			data: JSON.stringify(
+            {
+                Content: content,
+                ListId: listId
+            }),
 		    success: function(data){
                 console.log(data);
                 var newId = data.Key;
