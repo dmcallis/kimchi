@@ -58,7 +58,9 @@ var NewItemForm = React.createClass({
 
 var Item = React.createClass({
     render: function() {
-        var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
+        var boardId = this.props.BoardId;
+        var listId = this.props.ListId;
+        var itemUpdateApiUrl = "/boards/" + boardId + "/lists/" + listId + "/items/" + this.props.Id + getUserIdQueryParam();
         $("#itemContent_edit_" + this.getUniqueId()).editable({
             ajaxOptions: {
                 type: "put",
@@ -74,7 +76,9 @@ var Item = React.createClass({
 			},
             params: function(params) {
                 return JSON.stringify({
-                    Content: params.value
+                    Content: params.value,
+                    BoardId: boardId,
+                    ListId: listId
                 });
             }
         });
