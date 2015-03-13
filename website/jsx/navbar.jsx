@@ -1,24 +1,30 @@
 var React;
-var logoStyle = {height: "20px", marginTop: "0px"};
+var logoStyle = {height: "24px", marginTop: "-4px"};
 
 	        // <FbLogin />
 
 var KiNavbar = React.createClass({
   render: function() {
     return (
-    <div className="container">
-	    <nav className="navbar navbar-default navbar-fixed-top">
-	      <div className="container-fluid">
-	        <div className="navbar-header">
-	          <a className="navbar-brand" href="#">
-	          	<img style={logoStyle} src="images/kimchi-logo-white.svg" />
-			  </a>
-			  <BoardDropdown url="boards"/>
-	        </div>
-			<FbLogin />
-	      </div>
-	    </nav>
-	</div>
+          <div className="container">
+            <nav className="navbar navbar-default navbar-fixed-top">
+              <div className="container-fluid">
+                <div className="navbar-header">
+                  <a className="navbar-brand" href="#">
+                    <img style={logoStyle} src="images/kimchi-logo-white.svg" />
+                 </a>
+                </div>
+                <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul className="nav navbar-nav">                
+                  <BoardDropdown url="boards"/>
+                  </ul>
+                  <ul className="nav navbar-nav navbar-right">
+                    <FbLogin />
+                  </ul>
+                </div>
+              </div>
+            </nav>
+        </div>
     );
   }
 });
