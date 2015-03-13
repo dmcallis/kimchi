@@ -1,7 +1,9 @@
 function viewBoard(board)
 {
+	document.getElementById('content').innerHTML = "";
+	
 	React.render(
-		<Board Id={ board.Id } Title={ board.Title } />,
+		<Board Id={ board._key } Title={ board.Title } />,
 		document.getElementById('content')
 	);
 }

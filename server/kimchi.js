@@ -161,9 +161,12 @@ function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse,
     }
 }
 
-function callbackHelperAddObject(response, jsonData, serverUrl, databaseName, collectionName)
+function callbackHelperAddObject(request, response, serverUrl, databaseName, collectionName)
 {
-	stringData = JSON.stringify(jsonData);
+    request.body['Owner'] = KimchiLovers[request.query.userid];
+    request.body['CreatedDate'] = new Date().toLocaleString();
+    request.body['ModifiedDate'] = new Date().toLocaleString();
+    stringData = JSON.stringify(request.body);
 	dbManager = new arangojs(serverUrl);
 	dbManager.database(databaseName, function (err, kimchiDatabase){
 		kimchiDatabase.collection(collectionName, false, function (err, gotCollection) {
@@ -222,7 +225,6 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
 /* Board REST API */
 
 exports.boards = function (request, response) {
-    //requestlib.get(KimchiBoardLocation + KimchiBoardCollection).pipe(response);
     requestlib.get(KimchiBoardLocation + KimchiBoardCollection, function (err, arangoResponse) {
         var boardData = JSON.parse(arangoResponse.body);
         response.set("Content-type", "application/json");
@@ -256,7 +258,7 @@ exports.addBoard = function (request, response) {
 	var serverUrl = KimchiServerLocation;
 	var databaseName = KimchiDatabaseName;
 	var collectionName = KimchiBoardCollectioName;
-	callbackHelperAddObject(response, request.body, serverUrl, databaseName, collectionName);
+	callbackHelperAddObject(request, response, serverUrl, databaseName, collectionName);
 };
 
 exports.updateBoard = function (request, response) {
@@ -314,7 +316,9 @@ exports.addList = function (request, response) {
 	var serverUrl = KimchiServerLocation;
 	var databaseName = KimchiDatabaseName;
 	var collectionName = KimchiListCollectioName;
-	callbackHelperAddObject(response, request.body, serverUrl, databaseName, collectionName);
+
+	request.body['BoardId'] = request.params.id;
+	callbackHelperAddObject(request, response, serverUrl, databaseName, collectionName);
 };
 
 exports.updateList = function (request, response) {
@@ -356,7 +360,9 @@ exports.addItem = function (request, response) {
 	var serverUrl = KimchiServerLocation;
 	var databaseName = KimchiDatabaseName;
 	var collectionName = KimchiItemCollectioName;
-	callbackHelperAddObject(response, request.body, serverUrl, databaseName, collectionName);
+
+	request.body['ListId'] = request.params.listid;
+	callbackHelperAddObject(request, response, serverUrl, databaseName, collectionName);
 };
 
 exports.updateItem = function (request, response) {

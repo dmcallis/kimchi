@@ -106,7 +106,8 @@ var List = React.createClass({
   },
 
   render: function() {
-    var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id + getUserIdQueryParam();
+    var boardId = this.props.BoardId;
+    var listUpdateApiUrl = "/boards/" + boardId + "/lists/" + this.props.Id + getUserIdQueryParam();
     $("#listTitle_edit_" + this.props.Id).editable({
         ajaxOptions: {
             type: "put",
@@ -121,7 +122,8 @@ var List = React.createClass({
         },
         params: function(params) {
             return JSON.stringify({
-                Title: params.value
+                Title: params.value,
+                BoardId: boardId
             });
         }
     });
