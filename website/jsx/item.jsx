@@ -23,7 +23,7 @@ var NewItemForm = React.createClass({
 				// TODO: return all properties, sync with .../sampleJson/item.json
                 onNewItemSubmit(
                 {
-                    Id: newId,
+                    _key: newId, // TODO: Server GET returns '_key'
                     Owner: owner,
                     Content: content,
                     CreatedDate: new Date().toLocaleTimeString(),
@@ -58,7 +58,7 @@ var Item = React.createClass({
             ajaxOptions: {
                 type: "put",
                 dataType: "json",
-                contentType:"application/json; charset=utf-8"                
+                contentType:"application/json; charset=utf-8"
             },
             mode: "popup",
             placement: "right",
