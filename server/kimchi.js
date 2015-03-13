@@ -265,6 +265,8 @@ exports.addList = function (request, response) {
 	var serverUrl = KimchiServerLocation;
 	var databaseName = KimchiDatabaseName;
 	var collectionName = KimchiListCollectioName;
+
+	request.body['BoardId'] = request.params.id;
 	callbackHelperAddObject(request, response, serverUrl, databaseName, collectionName);
 };
 
