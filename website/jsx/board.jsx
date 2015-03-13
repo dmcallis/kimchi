@@ -40,8 +40,9 @@ var NewBoardForm = React.createClass({
     },
 
     render: function() {
+		var formStyle = {marginLeft: "-15px"};
         return (
-            <form className="newBoardForm navbar-form navbar-left" onSubmit={ this.handleSubmit }>
+            <form className="newBoardForm navbar-form navbar-left" style={formStyle} onSubmit={ this.handleSubmit }>
                 <input type="text" className="form-control" placeholder="Add a board..." ref="title" />
                 <input type="submit" className="btn btn-primary" value="Add" />
             </form>
