@@ -253,4 +253,9 @@ var BoardList = React.createClass({
 	}
 });
 
+React.render( 
+  <BoardList url="boards" pollInterval={2000} />, 
+  document.getElementById('content') 
+); 
+
 
