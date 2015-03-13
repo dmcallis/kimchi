@@ -5,9 +5,9 @@ var http = require('http');
 var arangojs = require('arangojs')
 var app = express();
 
-var KimchiBoardHost = "junykimvm8211.redmond.corp.microsoft.com"
+var KimchiBoardHost = "localhost"
 var KimchiBoardPort = 8529
-var KimchiDatabaseName = "KimchiDatabase";
+var KimchiDatabaseName = "_system";
 var KimchiBoardPath = "/_db/" + KimchiDatabaseName + "/Apps/KimchiBoard"
 var KimchiServerLocation = "http://" + KimchiBoardHost +  ":" + KimchiBoardPort 
 var KimchiBoardLocation = KimchiServerLocation + KimchiBoardPath;
@@ -61,7 +61,7 @@ function callbackHelperGetById(error, requestlibResponse, body, httpResponse, pa
     }
     if (!success)
     {
-    	httpResponse.status(400).send(collectionName + " (Id: " + paramId + ") not found");
+        httpResponse.status(400).send({ "Result": collectionName + " (Id " + paramId + ") not found" });
     }
 }
 
@@ -104,13 +104,13 @@ function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse,
         var index = containsKey(collectionParsed, "Id", paramId);
         if (index > -1) {
         	functionHelperUpdate(jsonBody, collectionPath, collectionParsed[index]._key)
-        	httpResponse.status(200).send(collectionName + " (Id: " + paramId + " _key: " + collectionParsed[index]._key + ") is updated ");
+        	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is updated " });
         	success = true
     	};
 	}
     if (!success)
     {
-    	httpResponse.status(400).send(collectionName + " (Id: " + paramId + ") not found");
+        httpResponse.status(400).send({ "Result": collectionName + " (Id " + paramId + ") not found" });
     }
 }
 
@@ -128,10 +128,10 @@ function callbackHelperAddObject(response, jsonData, serverUrl, databaseName, co
 		  gotCollection.save(stringData, function (err, doc) {
 	            if (err) {
 	            	console.error(err);
-	                response.status(400).send("Failed to create new item for " + collectionName + ": Err: " + err);
+	            	response.status(400).send({ "Result": "Failed to create new item for " + collectionName + ", Err " + err });
 
 	            } else {
-	                response.status(200).send("new item created for " + collectionName + ": Key: " + doc._key);
+	                response.status(200).send({ "Result": "new item created for " + collectionName + ", Key " + doc._key });
 		            console.log(doc._key);
 		            console.log(doc);
 		            doc._key; // the document's key 
@@ -160,13 +160,13 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
 	        		}
 	        	});
 	        		
-	        	httpResponse.status(200).send(collectionName + " (Id: " + paramId + " _key: " + collectionParsed[index]._key + ") is deleted ");
+        	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is deleted" });
 	            success = true;
     	};
 	}
     if (!success)
     {
-    	httpResponse.status(400).send(collectionName + " (Id: " + paramId + ") not found");
+        httpResponse.status(400).send({ "Result": collectionName + " (Id " + paramId + ") not found" });
     }
 }
 
