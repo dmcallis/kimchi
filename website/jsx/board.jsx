@@ -22,9 +22,8 @@ var NewBoardForm = React.createClass({
 				console.log(data);
 				var newId = data.Key;
 
-				// TODO: return all properties, sync with .../sampleJson/board.json
 				onNewBoardSubmit({
-					Id: newId,
+					_key: newId, // TODO: Server GET returns '_key'
 					Owner: owner,
 					Title: title,
 					CreatedDate: new Date().toLocaleTimeString(),
@@ -88,7 +87,9 @@ var Board = React.createClass({
 	    $("#boardTitle_edit_" + this.props.Id).editable({
 			mode: "inline",
 	        ajaxOptions: {
-	            type: "put"
+	            type: "put",
+                dataType: "json",
+                contentType:"application/json; charset=utf-8"
 	        },
 			validate: function(value) {
 			    if($.trim(value) == '') {
@@ -96,8 +97,9 @@ var Board = React.createClass({
 			    }
 			},
 	        params: function(params) {
-	            params.Title = params.value;
-	            return params;
+                return JSON.stringify({
+                    Title: params.value
+                });
 	        }
 	    });
 
@@ -111,7 +113,7 @@ var Board = React.createClass({
 		            </h3>
 		        </div>
 				<div>
-					<Lists data={ this.state.data } />
+					<Lists data={ this.state.data } BoardId={ this.props.Id } />
 					<NewListForm BoardId={ this.props.Id } onNewListSubmit={ this.handleListSubmit } />
 				</div>
 			</div>
@@ -150,6 +152,8 @@ var BoardSummary = React.createClass({
 		$.ajax({
 			url: boardDeleteApiUrl,
 			type: "DELETE",
+            dataType: "json",
+			contentType:"application/json; charset=utf-8",
 			success: function(result){
 				$itemElement = document.getElementById(divId);
 				$itemElement.parentNode.removeChild($itemElement);
@@ -175,9 +179,11 @@ var BoardSummary = React.createClass({
 
 var Boards = React.createClass({
 	render: function() {
+        // TODO: Server will return '_key' for id value
+        // NOTE: React requires 'key'
 		var boardNodes = this.props.data.map(function (board) {
 			return (
-				<BoardSummary key={ board.Id } Id={ board.Id } Title={ board.Title } />
+				<BoardSummary key={ board._key } Id={ board._key } Title={ board.Title } />
 			);
 		});
 

@@ -56,7 +56,9 @@ var Item = React.createClass({
         var itemUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.ListId + "/items/" + this.props.Id + getUserIdQueryParam();
         $("#itemContent_edit_" + this.getUniqueId()).editable({
             ajaxOptions: {
-                type: "put"
+                type: "put",
+                dataType: "json",
+                contentType:"application/json; charset=utf-8"                
             },
             mode: "popup",
             placement: "right",
@@ -66,8 +68,9 @@ var Item = React.createClass({
 			    }
 			},
             params: function(params) {
-                params.Content = params.value;
-                return params;
+                return JSON.stringify({
+                    Content: params.value
+                });
             }
         });
 
@@ -117,10 +120,11 @@ var Item = React.createClass({
 var Items = React.createClass({
   render: function() {
     var boardId = this.props.BoardId;
+    var listId = this.props.ListId;
 
     var itemNodes = this.props.data.map(function (item) {
       return (
-        <Item key={ item.Id } Id={ item.Id } BoardId={ boardId } ListId={ item.ListId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
+        <Item key={ item._key } Id={ item._key } BoardId={ boardId } ListId={ listId } Content={ item.Content } Owner={ item.Owner } CreatedDate={ item.CreatedDate } ModifiedDate={ item.ModifiedDate } />
       );
     });
 

@@ -9,7 +9,7 @@ var KimchiBoardHost = "junykimvm8211.redmond.corp.microsoft.com"
 var KimchiBoardPort = 8529
 var KimchiDatabaseName = "KimchiDatabase";
 var KimchiBoardPath = "/_db/" + KimchiDatabaseName + "/Apps/KimchiBoard"
-var KimchiServerLocation = "http://" + KimchiBoardHost +  ":" + KimchiBoardPort 
+var KimchiServerLocation = "http://" + KimchiBoardHost +  ":" + KimchiBoardPort
 var KimchiBoardLocation = KimchiServerLocation + KimchiBoardPath;
 var KimchiBoardCollection = "/Boards/Boards";
 var KimchiBoardCollectioName = "Apps_KimchiBoard_Boards";
@@ -66,7 +66,7 @@ function callbackHelperGetById(error, requestlibResponse, body, httpResponse, pa
 }
 
 function functionHelperUpdate(data, collectionPath, collectionKey)
-{	
+{
 	stringData = JSON.stringify(data);
 	var headers = {
 			  'Content-Type': 'application/json',
@@ -97,7 +97,9 @@ function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse,
     var success = false;
 	if (!error && requestlibResponse.statusCode == 200) {
         var collectionParsed = JSON.parse(body);
-        var index = containsKey(collectionParsed, "Id", paramId);
+
+        // TODO: Id or _key?
+        var index = containsKey(collectionParsed, /* "Id" */ "_key", paramId);
         if (index > -1) {
         	functionHelperUpdate(jsonBody, collectionPath, collectionParsed[index]._key)
         	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is updated ", "Key": collectionParsed[index]._key });
@@ -119,7 +121,7 @@ function callbackHelperAddObject(response, jsonData, serverUrl, databaseName, co
 		  if (err) {
 		    console.log('error: %j', err);
 		  } else {
-		    console.log('Collection retrieved: %j', 
+		    console.log('Collection retrieved: %j',
 		      gotCollection.name);
 		  gotCollection.save(stringData, function (err, doc) {
 	            if (err) {
@@ -130,7 +132,7 @@ function callbackHelperAddObject(response, jsonData, serverUrl, databaseName, co
 	                response.status(200).send({ "Result": "new item created for " + collectionName, "Key": doc._key });
 		            console.log(doc._key);
 		            console.log(doc);
-		            doc._key; // the document's key 
+		            doc._key; // the document's key
 	            	}
 		  		});
 		  	}
@@ -143,7 +145,9 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
     var success = false;
 	if (!error && requestlibResponse.statusCode == 200) {
         var collectionParsed = JSON.parse(body);
-        var index = containsKey(collectionParsed, "Id", paramId);
+
+        // TODO: Id or _key?
+        var index = containsKey(collectionParsed, /*"Id"*/ "_key", paramId);
         if (index > -1) {
         	requestlib.del(collectionUrl + "/" + collectionParsed[index]._key, function (err, requestlibResponse2, body) {
 	        		if (!err && requestlibResponse2.statusCode == 200)
@@ -155,7 +159,7 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
 	        			console.log(err);
 	        		}
 	        	});
-	        		
+
         	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is deleted", "Key": collectionParsed[index]._key });
 	            success = true;
     	};
@@ -187,7 +191,7 @@ exports.boards = function (request, response) {
         }
     });
 };
- 
+
 exports.getBoard = function (request, response) {
 	var paramId = request.params.id;
 	var collectionName = KimchiBoardCollectioName;
@@ -274,7 +278,7 @@ exports.updateList = function (request, response) {
 exports.deleteList = function (request, response) {
 	var paramId = request.params.listid;
 	var collectionName = KimchiListCollectioName;
-	var collectionUrl = KimchiBoardLocation + KimchiListCollection;	
+	var collectionUrl = KimchiBoardLocation + KimchiListCollection;
 	requestlib(KimchiBoardLocation + KimchiListCollection, function (error, requestlibResponse, body) {
 		callbackHelperRemoveById(error, requestlibResponse, body, response, paramId, collectionUrl, collectionName)
 	});
@@ -289,7 +293,7 @@ exports.items = function (request, response) {
 exports.getItem = function (request, response) {
 	var paramId = request.params.itemid;
 	var collectionName = KimchiItemCollectioName;
-	var collectionUrl = KimchiBoardLocation + KimchiItemCollection;		
+	var collectionUrl = KimchiBoardLocation + KimchiItemCollection;
 	requestlib(collectionUrl, function (error, requestlibResponse, body) {
 		callbackHelperGetById(error, requestlibResponse, body, response, paramId, collectionName)
 	});
@@ -315,7 +319,7 @@ exports.updateItem = function (request, response) {
 exports.deleteItem = function (request, response) {
 	var paramId = request.params.itemid;
 	var collectionName = "Item";
-	var collectionUrl = KimchiBoardLocation + KimchiItemCollection;		
+	var collectionUrl = KimchiBoardLocation + KimchiItemCollection;
 	requestlib(collectionUrl, function (error, requestlibResponse, body) {
 		callbackHelperRemoveById(error, requestlibResponse, body, response, paramId, collectionUrl, collectionName)
 	});

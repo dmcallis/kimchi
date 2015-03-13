@@ -8,7 +8,8 @@ var NewListForm = React.createClass({
         }
 
 		var onNewListSubmit = this.props.onNewListSubmit;
-		var newListApiUrl = "boards/" + this.props.BoardId + "/lists" + getUserIdQueryParam();
+        var boardId = this.props.BoardId;
+		var newListApiUrl = "boards/" + boardId + "/lists" + getUserIdQueryParam();
 
         $.ajax({
 			type: "POST",
@@ -23,7 +24,8 @@ var NewListForm = React.createClass({
 				// TODO: return all properties, sync with .../sampleJson/list.json
                 onNewListSubmit(
                 {
-                    Id: newId,
+                    _key: newId, // TODO: Server GET returns '_key',
+                    BoardId: boardId,
                     Owner: owner,
                     Title: title,
                     CreatedDate: new Date().toLocaleTimeString(),
@@ -103,7 +105,9 @@ var List = React.createClass({
     var listUpdateApiUrl = "/boards/" + this.props.BoardId + "/lists/" + this.props.Id + getUserIdQueryParam();
     $("#listTitle_edit_" + this.props.Id).editable({
         ajaxOptions: {
-            type: "put"
+            type: "put",
+            dataType: "json",
+            contentType:"application/json; charset=utf-8"
         },
         placement: "bottom",
         validate: function(value) {
@@ -112,8 +116,9 @@ var List = React.createClass({
             }
         },
         params: function(params) {
-            params.Title = params.value;
-            return params;
+            return JSON.stringify({
+                Title: params.value
+            });
         }
     });
 
@@ -157,9 +162,10 @@ var List = React.createClass({
 
 var Lists = React.createClass({
     render: function() {
+        var boardId = this.props.BoardId
 		var listNodes = this.props.data.map(function (list) {
 			return (
-				<List key={ list.Id } Id={ list.Id } BoardId={ list.BoardId } Title={ list.Title } Owner={ list.Owner } />
+				<List key={ list._key } Id={ list._key } BoardId={ boardId } Title={ list.Title } Owner={ list.Owner } />
 			);
 		});
 
