@@ -87,7 +87,6 @@ var Item = React.createClass({
             </div>
             <h5 className="itemOwner">Owner { this.props.Owner }</h5>
             <h5 className="itemCreatedDate">Created { this.props.CreatedDate }</h5>
-            <h5 className="itemCreatedDate">Modified { this.props.ModifiedDate }</h5>
           </div>
         );
     },
@@ -151,7 +150,7 @@ var Items = React.createClass({
 					console.log('error updating item order');
 				}
 			});
-		}		
+		}
 	}).disableSelection();
   }
 });
