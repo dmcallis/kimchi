@@ -5,9 +5,9 @@ var http = require('http');
 var arangojs = require('arangojs')
 var app = express();
 
-var KimchiBoardHost = "localhost"
+var KimchiBoardHost = "junykimvm8211.redmond.corp.microsoft.com"
 var KimchiBoardPort = 8529
-var KimchiDatabaseName = "_system";
+var KimchiDatabaseName = "KimchiDatabase";
 var KimchiBoardPath = "/_db/" + KimchiDatabaseName + "/Apps/KimchiBoard"
 var KimchiServerLocation = "http://" + KimchiBoardHost +  ":" + KimchiBoardPort 
 var KimchiBoardLocation = KimchiServerLocation + KimchiBoardPath;
