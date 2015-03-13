@@ -16,7 +16,11 @@ var NewListForm = React.createClass({
 		    url: newListApiUrl,
 		    dataType: "json",
 			contentType:"application/json; charset=utf-8",
-			data: JSON.stringify({ Title: title }),
+			data: JSON.stringify(
+            {
+                Title: title,
+                BoardId: boardId 
+            }),
 		    success: function(data){
                 console.log(data);
                 var newId = data.Key;
