@@ -7,15 +7,28 @@ var NewListForm = React.createClass({
             return;
         }
 
-        // TODO: return all properties, sync with .../sampleJson/list.json
-        this.props.onNewListSubmit(
-            {
-                Owner: owner,
-                Title: title,
-                CreatedDate: new Date().toLocaleTimeString(),
-                ModifiedDate: new Date().toLocaleTimeString()
-            }
-        );
+		var onNewListSubmit = this.props.onNewListSubmit;
+		var newListApiUrl = "boards/" + this.props.BoardId + "/lists" + getUserIdQueryParam();
+
+        $.ajax({
+			type: "POST",
+		    url: newListApiUrl,
+		    dataType: "text",// "json", // TODO: extract id from json response
+			data: JSON.stringify({ Title: title }),
+		    success: function(data){
+				// TODO: return all properties, sync with .../sampleJson/list.json
+                onNewListSubmit(
+                {
+                    Owner: owner,
+                    Title: title,
+                    CreatedDate: new Date().toLocaleTimeString(),
+                    ModifiedDate: new Date().toLocaleTimeString()
+                });
+		    },
+		    error: function(xhr, status, err) {
+		        console.error(newBoardApiUrl, status, err.toString());
+		    }
+		});
 
         this.refs.title.getDOMNode().value = "";
         return;
@@ -128,7 +141,7 @@ var List = React.createClass({
           </h3>
         </div>
         <div className="panel-body">
-          <Items data={ this.state.data } BoardId={ this.props.BoardId } />
+          <Items data={ this.state.data } BoardId={ this.props.BoardId } ListId={ this.props.Id }/>
           <NewItemForm onNewItemSubmit={ this.handleItemSubmit } />
         </div>
       </div>
