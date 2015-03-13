@@ -229,10 +229,10 @@ var BoardList = React.createClass({
 	render: function ()
 	{
 		return (
-			<div className="container">
-				<div className="jumbotron">
-				<Boards data = { this.state.data } />
-				<NewBoardForm onNewBoardSubmit={ this.handleBoardSubmit } />
+			<div className="jumbotron">
+				<div className="container">
+					<Boards data = { this.state.data } />
+					<NewBoardForm onNewBoardSubmit={ this.handleBoardSubmit } />
 				</div>
 			</div>
 		);
