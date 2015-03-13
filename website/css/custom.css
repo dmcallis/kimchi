@@ -1,21 +1,9 @@
-div._list {
-    width:300px;
-    border:1px solid;
-    padding:5px;
-    margin:5px;
-}
+
 
 div.sortable {
 	min-height:20px;
 }
 
-div._item {
-    background-color:green;
-    padding-top:1pt;
-    padding-bottom:1pt;
-    padding-left:5pt;
-    margin:2pt;
-}
 
 form {
     margin:2pt;
