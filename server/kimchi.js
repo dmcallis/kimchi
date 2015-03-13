@@ -13,7 +13,14 @@ var KimchiBoardLocation = "http://" + KimchiBoardHost +  ":" + KimchiBoardPort +
 var KimchiBoardCollection = "/Boards/Boards";
 var KimchiListCollection = "/Lists/Lists";
 var KimchiItemCollection = "/Items/Items";
-	
+
+var KimchiLovers = {
+    '1395632274085932': 'dmcallis',
+    '10153159462322329': 'mordonez',
+    '931118926932530': 'jinhoj',
+    '870720099651129': 'yongjkim'
+}
+
 app.use(bodyParser.json());
 
 function containsKey(collection, key, value) {
@@ -118,7 +125,23 @@ function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse,
 /* Board REST API */
 
 exports.boards = function (request, response) {
-	requestlib.get(KimchiBoardLocation + KimchiBoardCollection).pipe(response);
+    requestlib.get(KimchiBoardLocation + KimchiBoardCollection, function (err, arangoResponse) {
+        var boardData = JSON.parse(arangoResponse.body);
+        response.set("Content-type", "application/json");
+        if (typeof (request.query.userid) == "undefined") {
+            response.send(JSON.stringify(boardData));
+        }
+        else {
+            var filteredData = boardData.filter(function (board) {
+                if (board.Owner == KimchiLovers[request.query.userid]) {
+                    return true
+                } else {
+                    return false;
+                }
+            });
+            response.send(JSON.stringify(filteredData));
+        }
+    });
 };
  
 exports.getBoard = function (request, response) {
