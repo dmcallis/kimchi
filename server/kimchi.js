@@ -2,7 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var requestlib = require('request');
 var http = require('http');
-var arangojs = require('arangojs')
+var arangojs = require('arangojs');
+var jsonQuery = require("json-query");
 var app = express();
 
 var KimchiBoardHost = "junykimvm8211.redmond.corp.microsoft.com"
@@ -22,7 +23,8 @@ var KimchiLovers = {
     '1395632274085932': 'dmcallis',
     '10153159462322329': 'mordonez',
     '931118926932530': 'jinhoj',
-    '870720099651129': 'yongjkim'
+    '870720099651129': 'yongjkim',
+    '10153859581274298': 'junykim'
 }
 
 app.use(bodyParser.json());
@@ -44,26 +46,73 @@ function containsKey(collection, key, value) {
     return index;
 }
 
-var paramId;
-var collectionName;
-var responseCallback;
 function callbackHelperGetById(error, requestlibResponse, body, httpResponse, paramId, collectionName)
 {
     var success = false;
 	if (!error && requestlibResponse.statusCode == 200) {
-        var collectionParsed = JSON.parse(body);
-        var index = containsKey(collectionParsed, "_key", paramId);
-        if (index > -1) {
-        	httpResponse.set("Content-type", "application/json");
-        	httpResponse.send(JSON.stringify(collectionParsed[index]));
-        	success = true;
-        }
+		httpResponse.set("Content-type", "application/json");
+    	httpResponse.send(body);
+    	success = true;
     }
     if (!success)
     {
         httpResponse.status(400).send({ "Result": collectionName + " (Id " + paramId + ") not found" });
     }
 }
+
+function callbackHelperGetById2(error, requestlibResponse, body, httpRequest, httpResponse, collectionName)
+{
+    var success = false;
+	var boardId = (typeof (httpRequest.params.id) == "undefined") ? null : httpRequest.params.id;
+	var listId = (typeof (httpRequest.params.listid) == "undefined") ? null : httpRequest.params.listid;
+	var itemId = (typeof (httpRequest.params.itemid) == "undefined") ? null : httpRequest.params.itemid;
+	var paramString = "";
+	if (!error && requestlibResponse.statusCode == 200)
+	{
+	    var collectionParsed = JSON.parse(body);
+	    var resultJSON = collectionParsed;
+    }
+    if (itemId != null)
+	{
+		paramString = "ItemId[" + itemId + "] " + paramString;
+	}
+    
+	if (listId != null)
+	{
+		paramString = "ListId[" + listId + "] " + paramString;
+		if (itemId != null && collectionParsed != null)
+		{
+			if (collectionParsed["ListId"] != listId)
+			{
+				resultJSON = null;
+			}
+		}
+	}
+	
+    if (boardId != null)
+    {
+		paramString = "BoardId[" + boardId + "] " + paramString;
+		if ((itemId != null || listId != null) && collectionParsed != null)
+		{
+			if (collectionParsed["BoardId"] != boardId)
+			{
+				resultJSON = null;
+			}
+		}
+    }
+
+    if (resultJSON != null) {
+    	httpResponse.set("Content-type", "application/json");
+    	httpResponse.send(JSON.stringify(resultJSON));
+    	success = true;
+    }
+
+	if (!success)
+    {
+        httpResponse.status(400).send({ "Result": collectionName + " ( " + paramString + ") not found" });
+    }
+}
+
 
 function functionHelperUpdate(data, collectionPath, collectionKey)
 {
@@ -197,8 +246,9 @@ exports.getBoard = function (request, response) {
 	var paramId = request.params.id;
 	var collectionName = KimchiBoardCollectioName;
 	var collectionUrl = KimchiBoardLocation + KimchiBoardCollection;
-	requestlib(collectionUrl, function (error, requestlibResponse, body) {
-		callbackHelperGetById(error, requestlibResponse, body, response, paramId, collectionName)
+	var objectUrl = collectionUrl + '/' + paramId;
+	requestlib(objectUrl, function (error, requestlibResponse, body) {
+		callbackHelperGetById2(error, requestlibResponse, body, request, response, collectionName)
 	});
 };
 
@@ -254,8 +304,9 @@ exports.getList = function (request, response) {
 	var paramId = request.params.listid;
 	var collectionName = KimchiListCollectioName;
 	var collectionUrl = KimchiBoardLocation + KimchiListCollection;
-	requestlib(collectionUrl, function (error, requestlibResponse, body) {
-		callbackHelperGetById(error, requestlibResponse, body, response, paramId, collectionName)
+	var objectUrl = collectionUrl + '/' + paramId;
+	requestlib(objectUrl, function (error, requestlibResponse, body) {
+		callbackHelperGetById2(error, requestlibResponse, body, request, response, collectionName)
 	});
 };
 
@@ -295,8 +346,9 @@ exports.getItem = function (request, response) {
 	var paramId = request.params.itemid;
 	var collectionName = KimchiItemCollectioName;
 	var collectionUrl = KimchiBoardLocation + KimchiItemCollection;
-	requestlib(collectionUrl, function (error, requestlibResponse, body) {
-		callbackHelperGetById(error, requestlibResponse, body, response, paramId, collectionName)
+	var objectUrl = collectionUrl + '/' + paramId;
+	requestlib(objectUrl, function (error, requestlibResponse, body) {
+		callbackHelperGetById2(error, requestlibResponse, body, request, response, collectionName);
 	});
 };
 
