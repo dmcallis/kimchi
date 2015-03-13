@@ -52,7 +52,7 @@ function callbackHelperGetById(error, requestlibResponse, body, httpResponse, pa
     var success = false;
 	if (!error && requestlibResponse.statusCode == 200) {
         var collectionParsed = JSON.parse(body);
-        var index = containsKey(collectionParsed, "Id", paramId);
+        var index = containsKey(collectionParsed, "_key", paramId);
         if (index > -1) {
         	httpResponse.set("Content-type", "application/json");
         	httpResponse.send(JSON.stringify(collectionParsed[index]));
@@ -173,6 +173,7 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
 /* Board REST API */
 
 exports.boards = function (request, response) {
+    //requestlib.get(KimchiBoardLocation + KimchiBoardCollection).pipe(response);
     requestlib.get(KimchiBoardLocation + KimchiBoardCollection, function (err, arangoResponse) {
         var boardData = JSON.parse(arangoResponse.body);
         response.set("Content-type", "application/json");
