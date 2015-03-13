@@ -1,4 +1,3 @@
-var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
 var requestlib = require('request');
@@ -43,19 +42,6 @@ function containsKey(collection, key, value) {
     }
 
     return index;
-}
-
-try {
-    var data;
-    data = fs.readFileSync("../website/samplejson/board.json", "UTF-8");
-    var boards = JSON.parse(data);
-    data = fs.readFileSync("../website/samplejson/list.json", "UTF-8");
-    var lists = JSON.parse(data);
-    data = fs.readFileSync("../website/samplejson/item.json", "UTF-8");
-    var items = JSON.parse(data);
-}
-catch (e) {
-    console.log(e);
 }
 
 var paramId;
