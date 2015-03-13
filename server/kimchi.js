@@ -308,6 +308,8 @@ exports.addItem = function (request, response) {
 	var serverUrl = KimchiServerLocation;
 	var databaseName = KimchiDatabaseName;
 	var collectionName = KimchiItemCollectioName;
+
+	request.body['ListId'] = request.params.listid;
 	callbackHelperAddObject(request, response, serverUrl, databaseName, collectionName);
 };
 
