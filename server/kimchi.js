@@ -104,7 +104,7 @@ function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse,
         var index = containsKey(collectionParsed, "Id", paramId);
         if (index > -1) {
         	functionHelperUpdate(jsonBody, collectionPath, collectionParsed[index]._key)
-        	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is updated " });
+        	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is updated ", "Key": collectionParsed[index]._key });
         	success = true
     	};
 	}
@@ -131,7 +131,7 @@ function callbackHelperAddObject(response, jsonData, serverUrl, databaseName, co
 	            	response.status(400).send({ "Result": "Failed to create new item for " + collectionName + ", Err " + err });
 
 	            } else {
-	                response.status(200).send({ "Result": "new item created for " + collectionName + ", Key " + doc._key });
+	                response.status(200).send({ "Result": "new item created for " + collectionName, "Key": doc._key });
 		            console.log(doc._key);
 		            console.log(doc);
 		            doc._key; // the document's key 
@@ -160,7 +160,7 @@ function callbackHelperRemoveById(error, requestlibResponse, body, httpResponse,
 	        		}
 	        	});
 	        		
-        	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is deleted" });
+        	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is deleted", "Key": collectionParsed[index]._key });
 	            success = true;
     	};
 	}
