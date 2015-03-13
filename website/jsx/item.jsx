@@ -131,9 +131,22 @@ var Items = React.createClass({
 	$( ".sortable" ).sortable({
 		connectWith: ".connectedSortable",
 		update: function( event, ui ) {
-			var listid = $(this)[0].attributes["data-listid"];
+			var listId = $(this)[0].attributes["data-listid"];
 			var newOrderedElements = $(this).sortable('toArray');
-		}
+			var itemOrderUpdateUrl = "/lists/" + listId.value + "/order/";
+			$.ajax({
+				url: itemOrderUpdateUrl,
+				type: "PUT",
+				dataType: "json",
+				contentType:"application/json; charset=utf-8",
+				data: JSON.stringify({ orderedItems: newOrderedElements }),
+				success: function(result){
+				},
+				error: function (result){
+					console.log('error updating item order');
+				}
+			});
+		}		
 	}).disableSelection();
   }
 });

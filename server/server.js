@@ -44,6 +44,8 @@ app.get('/lists/:listid/items/:itemid', kimchi.getItem);
 app.put('/lists/:listid/items/:itemid', kimchi.updateItem);
 app.delete('/lists/:listid/items/:itemid', kimchi.deleteItem);
 
+app.put('/lists/:listid/order', kimchi.updateItemOrder);
+
 app.listen(8080);
 console.log('Kimchi server running at http://127.0.0.1:8080/...');
 

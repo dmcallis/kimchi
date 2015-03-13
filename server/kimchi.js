@@ -221,7 +221,7 @@ exports.getItem = function (request, response) {
 	});
 };
 
-exports.addItem = function (request, response) {
+exports.addItem = function (request, response) {	
     response.status(200).send("Item created\nData: " + JSON.stringify(request.body));
 };
 
@@ -244,3 +244,10 @@ exports.deleteItem = function (request, response) {
         response.status(400).send("Item (Id: " + request.params.itemid + ") not found");
     }
 };
+
+exports.updateItemOrder = function (request, response)
+{
+	var orderedItems = request.body.orderedItems;
+	console.log('updating order of items for list to:');
+	console.log(orderedItems);
+}
