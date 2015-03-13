@@ -15,11 +15,15 @@ var NewBoardForm = React.createClass({
 		$.ajax({
 			type: "POST",
 		    url: newBoardApiUrl,
-		    dataType: "text",// "json", // TODO: extract id from json response
+		    dataType: "json",
 			data: JSON.stringify({ Title: title }),
 		    success: function(data){
+				console.log(data);
+				var newId = data.Key;
+
 				// TODO: return all properties, sync with .../sampleJson/board.json
 				onNewBoardSubmit({
+					Id: newId,
 					Owner: owner,
 					Title: title,
 					CreatedDate: new Date().toLocaleTimeString(),

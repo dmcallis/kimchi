@@ -13,12 +13,16 @@ var NewItemForm = React.createClass({
         $.ajax({
 			type: "POST",
 		    url: newItemApiUrl,
-		    dataType: "text",// "json", // TODO: extract id from json response
+		    dataType: "json",
 			data: JSON.stringify({ Content: content }),
 		    success: function(data){
+                console.log(data);
+                var newId = data.Key;
+
 				// TODO: return all properties, sync with .../sampleJson/item.json
                 onNewItemSubmit(
                 {
+                    Id: newId,
                     Owner: owner,
                     Content: content,
                     CreatedDate: new Date().toLocaleTimeString(),

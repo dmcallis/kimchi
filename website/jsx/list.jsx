@@ -13,12 +13,16 @@ var NewListForm = React.createClass({
         $.ajax({
 			type: "POST",
 		    url: newListApiUrl,
-		    dataType: "text",// "json", // TODO: extract id from json response
+		    dataType: "json",
 			data: JSON.stringify({ Title: title }),
 		    success: function(data){
+                console.log(data);
+                var newId = data.Key;
+
 				// TODO: return all properties, sync with .../sampleJson/list.json
                 onNewListSubmit(
                 {
+                    Id: newId,
                     Owner: owner,
                     Title: title,
                     CreatedDate: new Date().toLocaleTimeString(),
