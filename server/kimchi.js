@@ -343,7 +343,24 @@ exports.deleteList = function (request, response) {
 /* Item REST API */
 
 exports.items = function (request, response) {
-	requestlib.get(KimchiBoardLocation + KimchiItemCollection).pipe(response);
+	//requestlib.get(KimchiBoardLocation + KimchiItemCollection).pipe(response);
+    requestlib.get(KimchiBoardLocation + KimchiItemCollection, function (err, arangoResponse) {
+        var itemData = JSON.parse(arangoResponse.body);
+        response.set("Content-type", "application/json");
+        if (typeof (request.params.listid) == "undefined") {
+            response.send(JSON.stringify(itemData));
+        }
+        else {
+            var filteredData = listData.filter(function (item) {
+                if (item.ListId == request.params.listid) {
+                    return true
+                } else {
+                    return false;
+                }
+            });
+            response.send(JSON.stringify(filteredData));
+        }
+    });
 };
 
 exports.getItem = function (request, response) {
