@@ -46,7 +46,7 @@ function containsKey(collection, key, value) {
 
 var paramId;
 var collectionName;
-var responseCallback
+var responseCallback;
 function callbackHelperGetById(error, requestlibResponse, body, httpResponse, paramId, collectionName)
 {
     var success = false;
@@ -56,7 +56,7 @@ function callbackHelperGetById(error, requestlibResponse, body, httpResponse, pa
         if (index > -1) {
         	httpResponse.set("Content-type", "application/json");
         	httpResponse.send(JSON.stringify(collectionParsed[index]));
-            success = true
+        	success = true;
         }
     }
     if (!success)
@@ -67,11 +67,7 @@ function callbackHelperGetById(error, requestlibResponse, body, httpResponse, pa
 
 function functionHelperUpdate(data, collectionPath, collectionKey)
 {	
-//	console.log(data);
-//	console.log(collectionPath);
-//	console.log(collectionKey);
 	stringData = JSON.stringify(data);
-//	console.log(stringData)
 	var headers = {
 			  'Content-Type': 'application/json',
 			  'Content-Length': stringData.length
@@ -105,7 +101,7 @@ function callbackHelperUpdateById(error, requestlibResponse, body, httpResponse,
         if (index > -1) {
         	functionHelperUpdate(jsonBody, collectionPath, collectionParsed[index]._key)
         	httpResponse.status(200).send({ "Result": collectionName + " (Id " + paramId + " _key " + collectionParsed[index]._key + ") is updated ", "Key": collectionParsed[index]._key });
-        	success = true
+        	success = true;
     	};
 	}
     if (!success)
@@ -230,7 +226,23 @@ exports.deleteBoard = function (request, response) {
 /* List REST API */
 
 exports.lists = function (request, response) {
-	requestlib.get(KimchiBoardLocation + KimchiListCollection).pipe(response);
+    requestlib.get(KimchiBoardLocation + KimchiListCollection, function (err, arangoResponse) {
+        var listData = JSON.parse(arangoResponse.body);
+        response.set("Content-type", "application/json");
+        if (typeof (request.params.id) == "undefined") {
+            response.send(JSON.stringify(listData));
+        }
+        else {
+            var filteredData = listData.filter(function (list) {
+                if (list.BoardId == request.params.id) {
+                    return true
+                } else {
+                    return false;
+                }
+            });
+            response.send(JSON.stringify(filteredData));
+        }
+    });
 };
 
 exports.getList = function (request, response) {
