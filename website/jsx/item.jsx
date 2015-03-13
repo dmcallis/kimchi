@@ -14,6 +14,7 @@ var NewItemForm = React.createClass({
 			type: "POST",
 		    url: newItemApiUrl,
 		    dataType: "json",
+			contentType:"application/json; charset=utf-8",
 			data: JSON.stringify({ Content: content }),
 		    success: function(data){
                 console.log(data);

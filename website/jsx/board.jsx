@@ -16,6 +16,7 @@ var NewBoardForm = React.createClass({
 			type: "POST",
 		    url: newBoardApiUrl,
 		    dataType: "json",
+			contentType:"application/json; charset=utf-8",
 			data: JSON.stringify({ Title: title }),
 		    success: function(data){
 				console.log(data);
